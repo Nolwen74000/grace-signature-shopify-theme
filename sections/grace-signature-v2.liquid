@@ -1,0 +1,321 @@
+<style>
+  .gs2 {
+    background: #f3f1ee;
+    color: #111;
+    padding: 90px 40px;
+  }
+
+  .gs2__wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .gs2__gridTop {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 60px;
+    align-items: start;
+    margin-bottom: 70px;
+  }
+
+  .gs2__kicker {
+    font-family: var(--font-body, Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif);
+    font-size: 12px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    opacity: .6;
+    margin-bottom: 18px;
+  }
+
+  .gs2__title {
+    font-family: var(--font-heading, "Cormorant Garamond", Georgia, serif);
+    font-weight: 300;
+    letter-spacing: .02em;
+    font-size: clamp(38px, 5vw, 72px);
+    line-height: 1.02;
+    margin: 0 0 16px 0;
+  }
+
+  .gs2__desc {
+    font-family: var(--font-body, Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif);
+    font-size: 18px;
+    line-height: 1.6;
+    opacity: .75;
+    margin: 0 0 26px 0;
+    max-width: 540px;
+  }
+
+  .gs2__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 26px;
+  }
+
+  .gs2__tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(0,0,0,.25);
+    padding: 10px 16px;
+    font-family: var(--font-body, Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif);
+    font-size: 12px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: inherit;
+    transition: background .2s ease, border-color .2s ease, transform .2s ease;
+  }
+
+  .gs2__tag:hover {
+    background: rgba(0,0,0,.04);
+    border-color: rgba(0,0,0,.35);
+    transform: translateY(-1px);
+  }
+
+  .gs2__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-body, Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif);
+    font-size: 12px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: inherit;
+    padding-top: 6px;
+  }
+
+  .gs2__cta span {
+    display: inline-block;
+    transform: translateY(1px);
+  }
+
+  .gs2__visual {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    background: rgba(0,0,0,.06);
+    border: 1px solid rgba(0,0,0,.06);
+    overflow: hidden;
+  }
+
+  .gs2__visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .gs2__visualPlaceholder {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-family: var(--font-body, Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif);
+    font-size: 12px;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    opacity: .35;
+  }
+
+  .gs2__gridBottom {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+
+  .gs2__card {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    background: rgba(0,0,0,.06);
+    border: 1px solid rgba(0,0,0,.06);
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .gs2__card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .gs2__cardLabel {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-family: var(--font-body, Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif);
+    font-size: 12px;
+    letter-spacing: .30em;
+    text-transform: uppercase;
+    opacity: .45;
+    pointer-events: none;
+  }
+
+  .gs2__card:hover {
+    border-color: rgba(0,0,0,.18);
+  }
+
+  @media (max-width: 980px) {
+    .gs2 { padding: 70px 20px; }
+    .gs2__gridTop { grid-template-columns: 1fr; gap: 30px; }
+    .gs2__gridBottom { grid-template-columns: 1fr; }
+  }
+</style>
+
+<section class="gs2">
+  <div class="gs2__wrap">
+    <div class="gs2__gridTop">
+      <div>
+        {% if section.settings.kicker != blank %}
+          <div class="gs2__kicker">{{ section.settings.kicker }}</div>
+        {% endif %}
+
+        {% if section.settings.heading != blank %}
+          <h2 class="gs2__title">{{ section.settings.heading }}</h2>
+        {% endif %}
+
+        {% if section.settings.description != blank %}
+          <p class="gs2__desc">{{ section.settings.description }}</p>
+        {% endif %}
+
+        <div class="gs2__tags">
+          {% for block in section.blocks %}
+            {% if block.type == 'tag' %}
+              {% assign tag_link = block.settings.link %}
+              {% if tag_link != blank %}
+                <a class="gs2__tag" href="{{ tag_link }}" {{ block.shopify_attributes }}>
+                  {{ block.settings.text }}
+                </a>
+              {% else %}
+                <span class="gs2__tag" {{ block.shopify_attributes }}>
+                  {{ block.settings.text }}
+                </span>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        {% if section.settings.cta_text != blank %}
+          <a class="gs2__cta" href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}">
+            {{ section.settings.cta_text }} <span>→</span>
+          </a>
+        {% endif %}
+      </div>
+
+      <div class="gs2__visual">
+        {% if section.settings.hero_image != blank %}
+          <img
+            src="{{ section.settings.hero_image | image_url: width: 1200 }}"
+            alt="{{ section.settings.hero_image.alt | escape }}"
+            loading="lazy"
+          >
+        {% else %}
+          <div class="gs2__visualPlaceholder">Signature capillaire</div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="gs2__gridBottom">
+      {% for block in section.blocks %}
+        {% if block.type == 'image_card' %}
+          {% assign card_link = block.settings.link %}
+          {% if card_link != blank %}
+            <a class="gs2__card" href="{{ card_link }}" {{ block.shopify_attributes }}>
+              {% if block.settings.image != blank %}
+                <img src="{{ block.settings.image | image_url: width: 1200 }}" alt="{{ block.settings.text | escape }}" loading="lazy">
+              {% endif %}
+              <div class="gs2__cardLabel">{{ block.settings.text }}</div>
+            </a>
+          {% else %}
+            <div class="gs2__card" {{ block.shopify_attributes }}>
+              {% if block.settings.image != blank %}
+                <img src="{{ block.settings.image | image_url: width: 1200 }}" alt="{{ block.settings.text | escape }}" loading="lazy">
+              {% endif %}
+              <div class="gs2__cardLabel">{{ block.settings.text }}</div>
+            </div>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Grace V2",
+  "settings": [
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Label",
+      "default": "Cheveux haut de gamme"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Grace Signature incarne l'aboutissement."
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Une expression maîtrisée de la matière, du geste et de la sensibilité."
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Image grande"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTA texte",
+      "default": "Découvrir Grace Signature"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA lien"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tag",
+      "name": "Tag",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Texte", "default": "Élégance" },
+        { "type": "url", "id": "link", "label": "Lien" }
+      ]
+    },
+    {
+      "type": "image_card",
+      "name": "Image",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "text", "label": "Texte", "default": "IVOIRE" },
+        { "type": "url", "id": "link", "label": "Lien" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Grace V2",
+      "blocks": [
+        { "type": "tag", "settings": { "text": "Élégance" } },
+        { "type": "tag", "settings": { "text": "Féminité" } },
+        { "type": "tag", "settings": { "text": "Luxe discret" } },
+        { "type": "tag", "settings": { "text": "Couture" } },
+
+        { "type": "image_card", "settings": { "text": "IVOIRE" } },
+        { "type": "image_card", "settings": { "text": "CHAMPAGNE" } },
+        { "type": "image_card", "settings": { "text": "NOIR" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

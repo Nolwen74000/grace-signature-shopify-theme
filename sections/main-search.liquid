@@ -1,0 +1,228 @@
+<style>
+  .search-page {
+    min-height: 100vh;
+    padding: 140px 40px 100px;
+    background: var(--color-background);
+    color: var(--color-text);
+  }
+
+  .search-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .search-header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  .search-title {
+    font-family: var(--font-heading, 'Cormorant Garamond', serif);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+  }
+
+  .search-form {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    gap: 15px;
+  }
+
+  .search-input {
+    flex: 1;
+    padding: 18px 25px;
+    background: hsl(var(--primary-foreground-hsl) / 0.03);
+    border: 1px solid hsl(var(--primary-foreground-hsl) / 0.22);
+    color: var(--color-text);
+    font-family: var(--font-body, 'Montserrat', sans-serif);
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+
+  .search-input:focus {
+    outline: none;
+    border-color: hsl(var(--primary-foreground-hsl) / 0.55);
+  }
+
+  .search-input::placeholder {
+    color: hsl(var(--primary-foreground-hsl) / 0.4);
+  }
+
+  .search-btn {
+    padding: 18px 40px;
+    background: hsl(var(--primary-foreground-hsl));
+    border: 1px solid hsl(var(--primary-foreground-hsl) / 0.22);
+    color: hsl(var(--primary-hsl));
+    font-family: var(--font-body, 'Montserrat', sans-serif);
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+  }
+
+  .search-btn:hover {
+    background: hsl(var(--primary-foreground-hsl) / 0.86);
+  }
+
+  .search-results-info {
+    text-align: center;
+    margin-bottom: 50px;
+    font-family: var(--font-body, 'Montserrat', sans-serif);
+    color: hsl(var(--primary-foreground-hsl) / 0.7);
+  }
+
+  .search-results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 40px;
+  }
+
+  .search-result-card {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .search-result-image {
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    background: hsl(var(--primary-foreground-hsl) / 0.03);
+    margin-bottom: 20px;
+  }
+
+  .search-result-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+
+  .search-result-card:hover .search-result-image img {
+    transform: scale(1.05);
+  }
+
+  .search-result-info {
+    text-align: center;
+  }
+
+  .search-result-type {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: hsl(var(--primary-foreground-hsl) / 0.55);
+    margin-bottom: 8px;
+  }
+
+  .search-result-title {
+    font-family: var(--font-heading, 'Cormorant Garamond', serif);
+    font-size: 1.2rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+
+  .search-result-price {
+    font-size: 0.95rem;
+    color: hsl(var(--primary-foreground-hsl) / 0.7);
+  }
+
+  .search-no-results {
+    text-align: center;
+    padding: 60px 20px;
+  }
+
+  .search-no-results p {
+    font-size: 1.1rem;
+    color: hsl(var(--primary-foreground-hsl) / 0.7);
+    margin-bottom: 30px;
+  }
+
+  @media (max-width: 768px) {
+    .search-page {
+      padding: 120px 20px 60px;
+    }
+
+    .search-form {
+      flex-direction: column;
+    }
+
+    .search-btn {
+      width: 100%;
+    }
+
+    .search-results-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+  }
+</style>
+
+<div class="search-page">
+  <div class="search-container">
+    <header class="search-header">
+      <h1 class="search-title">Recherche</h1>
+      <form action="{{ routes.search_url }}" method="get" class="search-form">
+        <input 
+          type="search" 
+          name="q" 
+          class="search-input" 
+          placeholder="Rechercher..." 
+          value="{{ search.terms | escape }}"
+          autocomplete="off"
+        >
+        <button type="submit" class="search-btn">Rechercher</button>
+      </form>
+    </header>
+
+    {%- if search.performed -%}
+      <p class="search-results-info">
+        {{ search.results_count }} résultat(s) pour "{{ search.terms }}"
+      </p>
+
+      {%- if search.results_count > 0 -%}
+        <div class="search-results-grid">
+          {%- for result in search.results -%}
+            <a href="{{ result.url }}" class="search-result-card">
+              <div class="search-result-image">
+                {%- if result.featured_image != blank -%}
+                  <img 
+                    src="{{ result.featured_image | image_url: width: 600 }}" 
+                    alt="{{ result.featured_image.alt | default: result.title | escape }}"
+                    loading="lazy"
+                  >
+                {%- endif -%}
+              </div>
+              <div class="search-result-info">
+                <p class="search-result-type">{{ result.object_type }}</p>
+                <h3 class="search-result-title">{{ result.title }}</h3>
+                {%- if result.price -%}
+                  <p class="search-result-price">{{ result.price | money }}</p>
+                {%- endif -%}
+              </div>
+            </a>
+          {%- endfor -%}
+        </div>
+      {%- else -%}
+        <div class="search-no-results">
+          <p>Aucun résultat trouvé pour "{{ search.terms }}"</p>
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Recherche",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Recherche"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,179 @@
+/* Collection Showcase Section */
+.collection-showcase {
+  padding: 60px 20px;
+  background-color: #FDFCFA;
+}
+
+@media (min-width: 768px) {
+  .collection-showcase {
+    padding: 80px 40px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .collection-showcase {
+    padding: 100px 60px;
+  }
+}
+
+.showcase-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Navigation Buttons */
+.showcase-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 50px;
+}
+
+@media (min-width: 768px) {
+  .showcase-nav {
+    gap: 20px;
+    margin-bottom: 70px;
+  }
+}
+
+.showcase-nav-button {
+  font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #8B8680;
+  text-decoration: none;
+  padding: 12px 24px;
+  border: 1px solid transparent;
+  background: transparent;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .showcase-nav-button {
+    font-size: 15px;
+    padding: 14px 32px;
+  }
+}
+
+.showcase-nav-button:hover {
+  color: #1A1A1A;
+  border-color: #1A1A1A;
+}
+
+.showcase-nav-button.active {
+  color: #1A1A1A;
+  border-color: #1A1A1A;
+  background-color: transparent;
+}
+
+/* Cards Grid */
+.showcase-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+}
+
+@media (min-width: 640px) {
+  .showcase-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .showcase-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+  }
+}
+
+/* Card Styles */
+.showcase-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.4s ease;
+}
+
+.showcase-card:hover {
+  transform: translateY(-8px);
+}
+
+.showcase-card-image {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background-color: #F5F3F0;
+  margin-bottom: 20px;
+}
+
+.showcase-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease, opacity 0.4s ease;
+}
+
+.showcase-card:hover .showcase-card-image img {
+  transform: scale(1.05);
+}
+
+.showcase-card-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #EDEAE5;
+}
+
+.showcase-card-placeholder .placeholder-svg {
+  width: 60%;
+  height: 60%;
+  opacity: 0.4;
+}
+
+.showcase-card-title {
+  font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #1A1A1A;
+  text-align: center;
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+@media (min-width: 768px) {
+  .showcase-card-title {
+    font-size: 20px;
+  }
+}
+
+.showcase-card:hover .showcase-card-title {
+  color: #8B8680;
+}
+
+/* Animation on scroll */
+.showcase-card {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.showcase-card:nth-child(1) { animation-delay: 0.1s; }
+.showcase-card:nth-child(2) { animation-delay: 0.2s; }
+.showcase-card:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

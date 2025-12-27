@@ -1,0 +1,293 @@
+<style>
+  .image-text-section {
+    padding: 6rem 2rem;
+  }
+  
+  @media (min-width: 768px) {
+    .image-text-section {
+      padding: 8rem 4rem;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .image-text-section {
+      padding: 10rem 6rem;
+    }
+  }
+  
+  @media (min-width: 1280px) {
+    .image-text-section {
+      padding: 10rem 8rem;
+    }
+  }
+  
+  .image-text-section--dark {
+    background-color: var(--primary);
+  }
+  
+  .image-text-section--light {
+    background-color: var(--background);
+  }
+  
+  .image-text-section--secondary {
+    background-color: var(--secondary);
+  }
+  
+  .image-text-inner {
+    max-width: 80rem;
+    margin: 0 auto;
+  }
+  
+  .image-text-grid {
+    display: grid;
+    gap: 3rem;
+  }
+  
+  @media (min-width: 768px) {
+    .image-text-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+  }
+  
+  .image-text-image {
+    position: relative;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+  }
+  
+  .image-text-image.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .image-text-section--dark .image-text-image {
+    background-color: rgba(248, 245, 240, 0.05);
+  }
+  
+  .image-text-section--light .image-text-image,
+  .image-text-section--secondary .image-text-image {
+    background-color: rgba(26, 26, 26, 0.05);
+  }
+  
+  .image-text-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .image-text-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .image-text-placeholder-text {
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+  }
+  
+  .image-text-section--dark .image-text-placeholder-text {
+    color: rgba(248, 245, 240, 0.3);
+  }
+  
+  .image-text-section--light .image-text-placeholder-text,
+  .image-text-section--secondary .image-text-placeholder-text {
+    color: rgba(26, 26, 26, 0.3);
+  }
+  
+  .image-text-card {
+    padding: 2rem;
+    border-width: 1px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+    transition-delay: 0.2s;
+  }
+  
+  .image-text-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .image-text-section--dark .image-text-card {
+    border-color: rgba(248, 245, 240, 0.1);
+  }
+  
+  .image-text-section--light .image-text-card {
+    border-color: var(--border);
+  }
+  
+  .image-text-section--secondary .image-text-card {
+    border-color: rgba(26, 26, 26, 0.1);
+  }
+  
+  .image-text-card-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 300;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .image-text-section--dark .image-text-card-title {
+    color: var(--primary-foreground);
+  }
+  
+  .image-text-section--light .image-text-card-title {
+    color: var(--foreground);
+  }
+  
+  .image-text-section--secondary .image-text-card-title {
+    color: var(--secondary-foreground);
+  }
+  
+  .image-text-card-text {
+    font-size: 0.875rem;
+    line-height: 1.8;
+  }
+  
+  .image-text-section--dark .image-text-card-text {
+    color: rgba(248, 245, 240, 0.6);
+  }
+  
+  .image-text-section--light .image-text-card-text {
+    color: var(--muted-foreground);
+  }
+  
+  .image-text-section--secondary .image-text-card-text {
+    color: rgba(26, 26, 26, 0.7);
+  }
+</style>
+
+<section class="image-text-section image-text-section--{{ section.settings.variant | default: 'secondary' }}">
+  <div class="image-text-inner">
+    <div class="image-text-grid">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'image' -%}
+            <div class="image-text-image animate-on-scroll" {{ block.shopify_attributes }}>
+              {%- if block.settings.image != blank -%}
+                <img 
+                  src="{{ block.settings.image | image_url: width: 800 }}"
+                  alt="{{ block.settings.image.alt | default: block.settings.placeholder }}"
+                  loading="lazy"
+                >
+              {%- else -%}
+                <div class="image-text-placeholder">
+                  <span class="image-text-placeholder-text">{{ block.settings.placeholder | default: 'Image' }}</span>
+                </div>
+              {%- endif -%}
+            </div>
+          
+          {%- when 'card' -%}
+            <div class="image-text-card animate-on-scroll" {{ block.shopify_attributes }}>
+              <h3 class="image-text-card-title">{{ block.settings.title }}</h3>
+              <p class="image-text-card-text">{{ block.settings.text }}</p>
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+      
+      {%- if section.blocks.size == 0 -%}
+        <div class="image-text-image animate-on-scroll">
+          <div class="image-text-placeholder">
+            <span class="image-text-placeholder-text">Portrait</span>
+          </div>
+        </div>
+        <div class="image-text-image animate-on-scroll">
+          <div class="image-text-placeholder">
+            <span class="image-text-placeholder-text">Silhouette</span>
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    document.querySelectorAll('.image-text-section .animate-on-scroll').forEach(function(el) {
+      observer.observe(el);
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Images & Cartes",
+  "tag": "section",
+  "class": "image-text-wrapper",
+  "settings": [
+    {
+      "type": "select",
+      "id": "variant",
+      "label": "Style",
+      "options": [
+        { "value": "light", "label": "Clair" },
+        { "value": "dark", "label": "Sombre" },
+        { "value": "secondary", "label": "Secondaire" }
+      ],
+      "default": "secondary"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "placeholder",
+          "label": "Texte placeholder",
+          "default": "Image"
+        }
+      ]
+    },
+    {
+      "type": "card",
+      "name": "Carte",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titre",
+          "default": "Titre de la carte"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Texte",
+          "default": "Description de la carte..."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Images & Cartes",
+      "blocks": [
+        { "type": "image" },
+        { "type": "image" }
+      ]
+    }
+  ]
+}
+{% endschema %}

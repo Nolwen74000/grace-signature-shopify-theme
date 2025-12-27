@@ -1,0 +1,15 @@
+{
+  "type": "header",
+  "name": "Header group",
+  "sections": {
+    "header": {
+      "type": "header",
+      "settings": {
+        "logo_text": "R. Morelli & Co"
+      }
+    }
+  },
+  "order": [
+    "header"
+  ]
+}

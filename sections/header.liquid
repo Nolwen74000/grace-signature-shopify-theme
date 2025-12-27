@@ -1,0 +1,421 @@
+<style>
+  .nav-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    padding: 1.5rem 2rem;
+    mix-blend-mode: difference;
+  }
+  
+  @media (min-width: 768px) {
+    .nav-fixed {
+      padding: 1.5rem 4rem;
+    }
+  }
+  
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .nav-logo {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.125rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--primary-foreground);
+    text-decoration: none;
+    opacity: 0;
+    animation: fadeIn 1s ease-out 0.5s forwards;
+  }
+  
+  @media (min-width: 768px) {
+    .nav-logo {
+      font-size: 1.25rem;
+    }
+  }
+  
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  @media (min-width: 768px) {
+    .nav-actions {
+      gap: 1.5rem;
+    }
+  }
+  
+  .nav-search,
+  .nav-cart {
+    position: relative;
+    color: var(--primary-foreground);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    opacity: 0;
+    animation: fadeIn 1s ease-out 0.6s forwards;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s ease;
+  }
+
+  .nav-search:hover,
+  .nav-cart:hover {
+    opacity: 0.7;
+  }
+
+  .nav-search svg {
+    width: 1.15rem;
+    height: 1.15rem;
+  }
+  
+  .nav-cart svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+  
+  .cart-count {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: var(--primary-foreground);
+    color: var(--primary);
+    font-size: 0.625rem;
+    font-weight: 600;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translate(25%, -25%);
+  }
+  
+  .cart-count:empty {
+    display: none;
+  }
+  
+  .nav-menu-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--primary-foreground);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    opacity: 0;
+    animation: fadeIn 1s ease-out 0.7s forwards;
+  }
+  
+  .nav-menu-text {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    display: none;
+  }
+  
+  @media (min-width: 768px) {
+    .nav-menu-text {
+      display: inline;
+    }
+  }
+  
+  .nav-hamburger {
+    width: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  
+  .nav-hamburger span {
+    display: block;
+    height: 1px;
+    background-color: currentColor;
+    transition: all 0.3s ease-out;
+    transform-origin: center;
+  }
+  
+  .nav-menu-btn.active .nav-hamburger span:nth-child(1) {
+    transform: rotate(45deg) translateY(5px);
+  }
+  
+  .nav-menu-btn.active .nav-hamburger span:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .nav-menu-btn.active .nav-hamburger span:nth-child(3) {
+    transform: rotate(-45deg) translateY(-5px);
+  }
+  
+  .menu-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background-color: var(--primary);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+    overflow-y: auto;
+  }
+  
+  .menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .menu-content {
+    min-height: 100%;
+    padding: 8rem 2rem 4rem;
+  }
+  
+  @media (min-width: 768px) {
+    .menu-content {
+      padding: 8rem 4rem 4rem;
+    }
+  }
+  
+  .menu-inner {
+    max-width: 56rem;
+    margin: 0 auto;
+  }
+  
+  .menu-section {
+    margin-bottom: 3rem;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  }
+  
+  .menu-overlay.active .menu-section {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .menu-overlay.active .menu-section:nth-child(1) { transition-delay: 0.1s; }
+  .menu-overlay.active .menu-section:nth-child(2) { transition-delay: 0.2s; }
+  .menu-overlay.active .menu-section:nth-child(3) { transition-delay: 0.3s; }
+  .menu-overlay.active .menu-section:nth-child(4) { transition-delay: 0.4s; }
+  
+  .menu-section-title {
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(248, 245, 240, 0.4);
+    margin-bottom: 1.5rem;
+  }
+  
+  .menu-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .menu-link {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.875rem;
+    letter-spacing: 0.05em;
+    color: var(--primary-foreground);
+    text-decoration: none;
+    display: inline-block;
+  }
+  
+  @media (min-width: 768px) {
+    .menu-link {
+      font-size: 2.25rem;
+    }
+  }
+  
+  .menu-link-main {
+    font-size: 2.25rem;
+  }
+  
+  @media (min-width: 768px) {
+    .menu-link-main {
+      font-size: 3rem;
+    }
+  }
+  
+  .menu-divider {
+    height: 1px;
+    background-color: rgba(248, 245, 240, 0.1);
+    margin-top: 3rem;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.8s ease-out;
+  }
+  
+  .menu-overlay.active .menu-divider {
+    transform: scaleX(1);
+  }
+  
+  .menu-overlay.active .menu-section:nth-child(1) .menu-divider { transition-delay: 0.4s; }
+  .menu-overlay.active .menu-section:nth-child(2) .menu-divider { transition-delay: 0.5s; }
+  .menu-overlay.active .menu-section:nth-child(3) .menu-divider { transition-delay: 0.6s; }
+</style>
+
+<nav class="nav-fixed">
+  <div class="nav-inner">
+    <a href="{{ routes.root_url }}" class="nav-logo">{{ section.settings.logo_text | default: 'R. Morelli & Co' }}</a>
+
+    <div class="nav-actions">
+      <!-- Search Icon -->
+      <a href="{{ routes.search_url }}" class="nav-search" aria-label="Rechercher">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+        </svg>
+      </a>
+
+      <!-- Cart Icon -->
+      <a href="{{ routes.cart_url }}" class="nav-cart" aria-label="Panier">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+        </svg>
+        {%- if cart.item_count > 0 -%}
+          <span class="cart-count">{{ cart.item_count }}</span>
+        {%- endif -%}
+      </a>
+
+      <!-- Menu Button -->
+      <button class="nav-menu-btn" id="menuToggle" aria-label="Menu">
+        <span class="nav-menu-text">Menu</span>
+        <div class="nav-hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="menu-overlay" id="menuOverlay">
+  <div class="menu-content">
+    <div class="menu-inner">
+      {%- assign maison_menu_handle = section.settings.menu_maison | default: 'maison' -%}
+      {%- assign era_menu_handle = section.settings.menu_era | default: 'era' -%}
+      {%- assign grace_menu_handle = section.settings.menu_grace | default: 'grace-signature' -%}
+
+      {%- assign maison_menu = linklists[maison_menu_handle] -%}
+      {%- assign era_menu = linklists[era_menu_handle] -%}
+      {%- assign grace_menu = linklists[grace_menu_handle] -%}
+
+      <!-- Maison -->
+      <div class="menu-section">
+        <p class="menu-section-title">Maison</p>
+        <div class="menu-links">
+          {%- if maison_menu != blank and maison_menu.links != blank -%}
+            {%- for link in maison_menu.links -%}
+              <a href="{{ link.url }}" class="menu-link link-luxury">{{ link.title }}</a>
+            {%- endfor -%}
+          {%- else -%}
+            <a href="{{ pages['vision'].url | default: '/pages/vision' }}" class="menu-link link-luxury">Vision</a>
+            <a href="{{ pages['la-femme'].url | default: '/pages/la-femme' }}" class="menu-link link-luxury">La Femme R. Morelli</a>
+          {%- endif -%}
+        </div>
+        <div class="menu-divider"></div>
+      </div>
+
+      <!-- ERA -->
+      <div class="menu-section">
+        <p class="menu-section-title">ERA</p>
+        <div class="menu-links">
+          {%- if era_menu != blank and era_menu.links != blank -%}
+            {%- for link in era_menu.links -%}
+              <a href="{{ link.url }}" class="menu-link link-luxury">{{ link.title }}</a>
+            {%- endfor -%}
+          {%- else -%}
+            <a href="{{ collections['era-manifeste'].url | default: '/collections/era-manifeste' }}" class="menu-link link-luxury">Manifeste</a>
+            <a href="{{ collections['era-silhouettes'].url | default: '/collections/era-silhouettes' }}" class="menu-link link-luxury">Silhouettes</a>
+            <a href="{{ collections['era-capsules'].url | default: '/collections/era-capsules' }}" class="menu-link link-luxury">Capsules</a>
+          {%- endif -%}
+        </div>
+        <div class="menu-divider"></div>
+      </div>
+
+      <!-- Grace Signature -->
+      <div class="menu-section">
+        <p class="menu-section-title">Grace Signature</p>
+        <div class="menu-links">
+          {%- if grace_menu != blank and grace_menu.links != blank -%}
+            {%- for link in grace_menu.links -%}
+              <a href="{{ link.url }}" class="menu-link link-luxury">{{ link.title }}</a>
+            {%- endfor -%}
+          {%- else -%}
+            <a href="{{ collections['grace-signature'].url | default: '/collections/grace-signature' }}" class="menu-link link-luxury">La Signature</a>
+            <a href="{{ pages['atelier'].url | default: '/pages/atelier' }}" class="menu-link link-luxury">Atelier</a>
+            <a href="{{ collections['les-essentiels'].url | default: '/collections/les-essentiels' }}" class="menu-link link-luxury">Les Essentiels</a>
+          {%- endif -%}
+        </div>
+        <div class="menu-divider"></div>
+      </div>
+
+      <!-- Contact -->
+      <div class="menu-section">
+        <a href="{{ pages['contact'].url | default: '/pages/contact' }}" class="menu-link menu-link-main link-luxury">Contact</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const menuToggle = document.getElementById('menuToggle');
+    const menuOverlay = document.getElementById('menuOverlay');
+    const menuLinks = menuOverlay.querySelectorAll('a');
+    
+    menuToggle.addEventListener('click', function() {
+      menuToggle.classList.toggle('active');
+      menuOverlay.classList.toggle('active');
+      document.body.style.overflow = menuOverlay.classList.contains('active') ? 'hidden' : '';
+    });
+    
+    menuLinks.forEach(function(link) {
+      link.addEventListener('click', function() {
+        menuToggle.classList.remove('active');
+        menuOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo Text",
+      "default": "R. Morelli & Co"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_maison",
+      "label": "Menu Maison",
+      "info": "Créez un menu 'maison' dans Navigation pour personnaliser ces liens"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_era",
+      "label": "Menu ERA",
+      "info": "Créez un menu 'era' dans Navigation pour personnaliser ces liens"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_grace",
+      "label": "Menu Grace Signature",
+      "info": "Créez un menu 'grace-signature' dans Navigation pour personnaliser ces liens"
+    }
+  ]
+}
+{% endschema %}

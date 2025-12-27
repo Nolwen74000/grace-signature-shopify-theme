@@ -1,0 +1,279 @@
+<style>
+  .cart-page {
+    min-height: 100vh;
+    padding: 120px 40px 80px;
+    background: var(--color-background);
+    color: var(--color-text);
+  }
+
+  .cart-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .cart-title {
+    font-family: var(--font-heading, 'Cormorant Garamond', serif);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 60px;
+    text-align: center;
+  }
+
+  .cart-empty {
+    text-align: center;
+    padding: 80px 20px;
+  }
+
+  .cart-empty p {
+    font-family: var(--font-body, 'Montserrat', sans-serif);
+    font-size: 1.1rem;
+    color: hsl(var(--primary-foreground-hsl) / 0.7);
+    margin-bottom: 40px;
+  }
+
+  .cart-continue-btn {
+    display: inline-block;
+    padding: 16px 48px;
+    background: transparent;
+    border: 1px solid hsl(var(--primary-foreground-hsl) / 0.3);
+    color: hsl(var(--primary-foreground-hsl) / 0.9);
+    font-family: var(--font-body, 'Montserrat', sans-serif);
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+  }
+
+  .cart-continue-btn:hover {
+    background: hsl(var(--primary-foreground-hsl));
+    color: hsl(var(--primary-hsl));
+    border-color: hsl(var(--primary-foreground-hsl));
+  }
+
+  .cart-items {
+    border-top: 1px solid hsl(var(--primary-foreground-hsl) / 0.18);
+  }
+
+  .cart-item {
+    display: grid;
+    grid-template-columns: 120px 1fr auto auto;
+    gap: 30px;
+    align-items: center;
+    padding: 30px 0;
+    border-bottom: 1px solid hsl(var(--primary-foreground-hsl) / 0.12);
+  }
+
+  .cart-item-image {
+    width: 120px;
+    height: 150px;
+    object-fit: cover;
+    background: hsl(var(--primary-foreground-hsl) / 0.05);
+  }
+
+  .cart-item-info h3 {
+    font-family: var(--font-heading, 'Cormorant Garamond', serif);
+    font-size: 1.3rem;
+    font-weight: 400;
+    margin-bottom: 8px;
+  }
+
+  .cart-item-info h3 a {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .cart-item-variant {
+    font-size: 0.9rem;
+    color: hsl(var(--primary-foreground-hsl) / 0.6);
+  }
+
+  .cart-item-quantity {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .cart-item-quantity button {
+    width: 36px;
+    height: 36px;
+    background: transparent;
+    border: 1px solid hsl(var(--primary-foreground-hsl) / 0.22);
+    color: var(--color-text);
+    cursor: pointer;
+    transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease;
+  }
+
+  .cart-item-quantity button:hover {
+    border-color: hsl(var(--primary-foreground-hsl) / 0.6);
+    background: hsl(var(--primary-foreground-hsl) / 0.06);
+  }
+
+  .cart-item-quantity input {
+    width: 50px;
+    text-align: center;
+    background: transparent;
+    border: none;
+    color: var(--color-text);
+    font-size: 1rem;
+  }
+
+  .cart-item-price {
+    font-family: var(--font-body, 'Montserrat', sans-serif);
+    font-size: 1.1rem;
+    min-width: 100px;
+    text-align: right;
+  }
+
+  .cart-footer {
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 1px solid hsl(var(--primary-foreground-hsl) / 0.18);
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .cart-summary {
+    text-align: right;
+  }
+
+  .cart-subtotal {
+    display: flex;
+    justify-content: space-between;
+    gap: 60px;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+  }
+
+  .cart-subtotal-label {
+    color: hsl(var(--primary-foreground-hsl) / 0.7);
+  }
+
+  .cart-subtotal-price {
+    font-weight: 500;
+  }
+
+  .cart-note {
+    font-size: 0.9rem;
+    color: hsl(var(--primary-foreground-hsl) / 0.5);
+    margin-bottom: 30px;
+  }
+
+  .cart-checkout-btn {
+    display: inline-block;
+    width: 100%;
+    padding: 18px 60px;
+    background: hsl(var(--primary-foreground-hsl));
+    border: 1px solid hsl(var(--primary-foreground-hsl));
+    color: hsl(var(--primary-hsl));
+    font-family: var(--font-body, 'Montserrat', sans-serif);
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+  }
+
+  .cart-checkout-btn:hover {
+    background: hsl(var(--primary-foreground-hsl) / 0.86);
+  }
+
+  @media (max-width: 768px) {
+    .cart-page {
+      padding: 100px 20px 60px;
+    }
+
+    .cart-item {
+      grid-template-columns: 80px 1fr;
+      gap: 20px;
+    }
+
+    .cart-item-quantity,
+    .cart-item-price {
+      grid-column: 2;
+    }
+  }
+</style>
+
+<div class="cart-page">
+  <div class="cart-container">
+    <h1 class="cart-title">{{ 'cart.general.title' | t | default: 'Votre Panier' }}</h1>
+
+    {%- if cart.item_count > 0 -%}
+      <form action="{{ routes.cart_url }}" method="post" id="cart">
+        <div class="cart-items">
+          {%- for item in cart.items -%}
+            <div class="cart-item">
+              <img 
+                class="cart-item-image"
+                src="{{ item.image | image_url: width: 240 }}" 
+                alt="{{ item.title | escape }}"
+                loading="lazy"
+              >
+              
+              <div class="cart-item-info">
+                <h3><a href="{{ item.url }}">{{ item.product.title }}</a></h3>
+                {%- if item.variant.title != 'Default Title' -%}
+                  <p class="cart-item-variant">{{ item.variant.title }}</p>
+                {%- endif -%}
+              </div>
+
+              <div class="cart-item-quantity">
+                <button type="button" onclick="updateQuantity('{{ item.key }}', {{ item.quantity | minus: 1 }})">−</button>
+                <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" readonly>
+                <button type="button" onclick="updateQuantity('{{ item.key }}', {{ item.quantity | plus: 1 }})">+</button>
+              </div>
+
+              <div class="cart-item-price">
+                {{ item.final_line_price | money }}
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <div class="cart-footer">
+          <div class="cart-summary">
+            <div class="cart-subtotal">
+              <span class="cart-subtotal-label">Sous-total</span>
+              <span class="cart-subtotal-price">{{ cart.total_price | money }}</span>
+            </div>
+            <p class="cart-note">Frais de livraison calculés à l'étape suivante</p>
+            <button type="submit" name="checkout" class="cart-checkout-btn">
+              Passer commande
+            </button>
+          </div>
+        </div>
+      </form>
+    {%- else -%}
+      <div class="cart-empty">
+        <p>Votre panier est vide</p>
+        <a href="{{ routes.collections_url }}" class="cart-continue-btn">Découvrir nos collections</a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  function updateQuantity(key, quantity) {
+    fetch('/cart/change.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: key, quantity: quantity })
+    }).then(() => window.location.reload());
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Panier",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Panier"
+    }
+  ]
+}
+{% endschema %}

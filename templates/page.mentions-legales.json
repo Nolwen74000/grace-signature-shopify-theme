@@ -1,0 +1,29 @@
+{
+  "sections": {
+    "header": {
+      "type": "header",
+      "settings": {}
+    },
+    "page-header": {
+      "type": "page-header",
+      "settings": {
+        "variant": "dark",
+        "category": "Informations légales"
+      }
+    },
+    "main-page": {
+      "type": "main-page",
+      "settings": {}
+    },
+    "footer": {
+      "type": "footer",
+      "settings": {}
+    }
+  },
+  "order": [
+    "header",
+    "page-header",
+    "main-page",
+    "footer"
+  ]
+}

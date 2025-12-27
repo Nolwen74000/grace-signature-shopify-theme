@@ -1,0 +1,15 @@
+{
+  "general": {
+    "accessibility": {
+      "skip_to_text": "Skip to content"
+    }
+  },
+  "accessibility": {
+    "skip_to_text": "Skip to content"
+  },
+  "cart": {
+    "general": {
+      "title": "Votre panier"
+    }
+  }
+}

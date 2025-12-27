@@ -1,0 +1,253 @@
+<style>
+  .collection-page {
+    min-height: 100vh;
+    padding: 140px 40px 100px;
+    background: var(--color-background, #0a0a0a);
+    color: var(--color-text, #f5f5f0);
+  }
+
+  .collection-container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .collection-header {
+    text-align: center;
+    margin-bottom: 80px;
+  }
+
+  .collection-title {
+    font-family: var(--font-heading, 'Cormorant Garamond', serif);
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+  }
+
+  .collection-description {
+    max-width: 700px;
+    margin: 0 auto 30px;
+    font-family: var(--font-body, 'Montserrat', sans-serif);
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: rgba(245, 245, 240, 0.7);
+  }
+
+  .collection-divider {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-gold, #d4af37), transparent);
+    margin: 0 auto;
+  }
+
+  .collection-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 40px;
+  }
+
+  .product-card {
+    position: relative;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .product-card-image {
+    position: relative;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.03);
+    margin-bottom: 20px;
+  }
+
+  .product-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+
+  .product-card:hover .product-card-image img {
+    transform: scale(1.05);
+  }
+
+  .product-card-info {
+    text-align: center;
+  }
+
+  .product-card-title {
+    font-family: var(--font-heading, 'Cormorant Garamond', serif);
+    font-size: 1.3rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+  }
+
+  .product-card-price {
+    font-family: var(--font-body, 'Montserrat', sans-serif);
+    font-size: 0.95rem;
+    color: var(--color-gold, #d4af37);
+    letter-spacing: 0.1em;
+  }
+
+  .product-card-price s {
+    color: rgba(245, 245, 240, 0.5);
+    margin-right: 10px;
+  }
+
+  .collection-empty {
+    text-align: center;
+    padding: 80px 20px;
+  }
+
+  .collection-empty p {
+    font-size: 1.1rem;
+    color: rgba(245, 245, 240, 0.7);
+    margin-bottom: 30px;
+  }
+
+  .collection-back-btn {
+    display: inline-block;
+    padding: 16px 48px;
+    background: transparent;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    color: var(--color-gold, #d4af37);
+    font-family: var(--font-body, 'Montserrat', sans-serif);
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.4s ease;
+  }
+
+  .collection-back-btn:hover {
+    background: var(--color-gold, #d4af37);
+    color: #0a0a0a;
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 80px;
+  }
+
+  .pagination a,
+  .pagination span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    color: var(--color-text, #f5f5f0);
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .pagination a:hover {
+    border-color: var(--color-gold, #d4af37);
+    color: var(--color-gold, #d4af37);
+  }
+
+  .pagination .current {
+    background: var(--color-gold, #d4af37);
+    border-color: var(--color-gold, #d4af37);
+    color: #0a0a0a;
+  }
+
+  @media (max-width: 768px) {
+    .collection-page {
+      padding: 120px 20px 60px;
+    }
+
+    .collection-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .product-card-title {
+      font-size: 1.1rem;
+    }
+  }
+</style>
+
+<div class="collection-page">
+  <div class="collection-container">
+    <header class="collection-header">
+      <h1 class="collection-title">{{ collection.title }}</h1>
+      {%- if collection.description != blank -%}
+        <div class="collection-description">{{ collection.description }}</div>
+      {%- endif -%}
+      <div class="collection-divider"></div>
+    </header>
+
+    {%- if collection.products.size > 0 -%}
+      <div class="collection-grid">
+        {%- for product in collection.products -%}
+          <a href="{{ product.url }}" class="product-card">
+            <div class="product-card-image">
+              {%- if product.featured_image != blank -%}
+                <img 
+                  src="{{ product.featured_image | image_url: width: 600 }}" 
+                  alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                  loading="lazy"
+                >
+              {%- endif -%}
+            </div>
+            <div class="product-card-info">
+              <h3 class="product-card-title">{{ product.title }}</h3>
+              <p class="product-card-price">
+                {%- if product.compare_at_price > product.price -%}
+                  <s>{{ product.compare_at_price | money }}</s>
+                {%- endif -%}
+                {{ product.price | money }}
+              </p>
+            </div>
+          </a>
+        {%- endfor -%}
+      </div>
+
+      {%- if paginate.pages > 1 -%}
+        <nav class="pagination">
+          {%- if paginate.previous -%}
+            <a href="{{ paginate.previous.url }}">←</a>
+          {%- endif -%}
+
+          {%- for part in paginate.parts -%}
+            {%- if part.is_link -%}
+              <a href="{{ part.url }}">{{ part.title }}</a>
+            {%- else -%}
+              <span class="current">{{ part.title }}</span>
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- if paginate.next -%}
+            <a href="{{ paginate.next.url }}">→</a>
+          {%- endif -%}
+        </nav>
+      {%- endif -%}
+    {%- else -%}
+      <div class="collection-empty">
+        <p>Cette collection ne contient pas encore de produits.</p>
+        <a href="{{ routes.all_products_collection_url }}" class="collection-back-btn">Voir tous les produits</a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{%- paginate collection.products by 12 -%}
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "Collection",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Collection"
+    }
+  ]
+}
+{% endschema %}

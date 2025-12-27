@@ -1,0 +1,44 @@
+{
+  "sections": {
+    "header": {
+      "type": "header",
+      "settings": {}
+    },
+    "page-header": {
+      "type": "page-header",
+      "settings": {
+        "variant": "light",
+        "category": "Grace Signature",
+        "subtitle": "L'art du geste. La maîtrise de la matière."
+      }
+    },
+    "rich-text": {
+      "type": "rich-text",
+      "settings": {
+        "variant": "dark",
+        "content": "<p>L'Atelier Grace Signature est le cœur battant de notre maison. C'est ici que naissent les créations capillaires d'exception, façonnées à la main avec une précision et une sensibilité qui ne tolèrent aucun compromis.</p><p>Chaque pièce est le fruit d'un savoir-faire transmis, enrichi, sublimé. Nos artisans maîtrisent l'art du cheveu comme on maîtrise un art noble — avec patience, dévotion et exigence.</p><p>Le sur-mesure n'est pas une option. C'est notre essence. Nous créons pour vous, avec vous, en écoutant vos désirs et en révélant ce que vous êtes vraiment.</p>",
+        "show_divider": true,
+        "keywords_title": "Notre savoir-faire",
+        "keywords": "Sur-mesure, Artisanat, Excellence, Tradition"
+      }
+    },
+    "quote": {
+      "type": "quote",
+      "settings": {
+        "variant": "secondary",
+        "quote": "Chaque création est une signature. La vôtre."
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "settings": {}
+    }
+  },
+  "order": [
+    "header",
+    "page-header",
+    "rich-text",
+    "quote",
+    "footer"
+  ]
+}

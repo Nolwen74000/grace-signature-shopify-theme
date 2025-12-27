@@ -1,0 +1,135 @@
+<style>
+  .page-content {
+    min-height: 100vh;
+    padding: 140px 40px 100px;
+    background: var(--color-background, #0a0a0a);
+    color: var(--color-text, #f5f5f0);
+  }
+
+  .page-container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .page-header {
+    text-align: center;
+    margin-bottom: 80px;
+  }
+
+  .page-title {
+    font-family: var(--font-heading, 'Cormorant Garamond', serif);
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+  }
+
+  .page-divider {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-gold, #d4af37), transparent);
+    margin: 0 auto;
+  }
+
+  .page-body {
+    font-family: var(--font-body, 'Montserrat', sans-serif);
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: rgba(245, 245, 240, 0.85);
+  }
+
+  .page-body h2 {
+    font-family: var(--font-heading, 'Cormorant Garamond', serif);
+    font-size: 2rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    margin: 60px 0 30px;
+    color: var(--color-text, #f5f5f0);
+  }
+
+  .page-body h3 {
+    font-family: var(--font-heading, 'Cormorant Garamond', serif);
+    font-size: 1.5rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    margin: 40px 0 20px;
+    color: var(--color-text, #f5f5f0);
+  }
+
+  .page-body p {
+    margin-bottom: 25px;
+  }
+
+  .page-body a {
+    color: var(--color-gold, #d4af37);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+    transition: border-color 0.3s ease;
+  }
+
+  .page-body a:hover {
+    border-color: var(--color-gold, #d4af37);
+  }
+
+  .page-body ul,
+  .page-body ol {
+    margin: 25px 0;
+    padding-left: 30px;
+  }
+
+  .page-body li {
+    margin-bottom: 12px;
+  }
+
+  .page-body blockquote {
+    margin: 50px 0;
+    padding: 30px 40px;
+    border-left: 2px solid var(--color-gold, #d4af37);
+    font-style: italic;
+    font-size: 1.15rem;
+    color: rgba(245, 245, 240, 0.9);
+    background: rgba(212, 175, 55, 0.03);
+  }
+
+  .page-body img {
+    max-width: 100%;
+    height: auto;
+    margin: 40px 0;
+  }
+
+  @media (max-width: 768px) {
+    .page-content {
+      padding: 120px 25px 60px;
+    }
+
+    .page-body blockquote {
+      padding: 20px 25px;
+    }
+  }
+</style>
+
+<div class="page-content">
+  <div class="page-container">
+    <header class="page-header">
+      <h1 class="page-title">{{ page.title }}</h1>
+      <div class="page-divider"></div>
+    </header>
+
+    <div class="page-body rte">
+      {{ page.content }}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Contenu de page",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Contenu de page"
+    }
+  ]
+}
+{% endschema %}

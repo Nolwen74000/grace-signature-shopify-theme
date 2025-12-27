@@ -1,0 +1,51 @@
+{
+  "sections": {
+    "header": {
+      "type": "header",
+      "settings": {}
+    },
+    "page-header": {
+      "type": "page-header",
+      "settings": {
+        "variant": "dark",
+        "category": "Maison",
+        "subtitle": "Ne garder que l'essentiel."
+      }
+    },
+    "rich-text": {
+      "type": "rich-text",
+      "settings": {
+        "variant": "light",
+        "content": "<p>R. Morelli & Co est née d'une conviction simple : dans un monde saturé, le luxe véritable réside dans l'épure. Nous créons pour celles qui ont compris que l'élégance ne s'impose pas — elle se ressent.</p><p>Notre approche s'inscrit à l'intersection de la couture, de l'architecture et du luxe silencieux. Chaque création — qu'il s'agisse d'une silhouette ERA ou d'une signature capillaire Grace — est pensée comme une forme essentielle, dépouillée du superflu.</p><p>Nous ne suivons pas les tendances. Nous construisons des pièces qui traversent le temps, pour des femmes qui ont choisi de vivre pleinement chaque instant de leur vie — sans compromis, sans excès.</p>",
+        "show_divider": true,
+        "keywords_title": "Nos piliers",
+        "keywords": "Épure, Intemporalité, Précision, Silence"
+      }
+    },
+    "image-section": {
+      "type": "image-with-text",
+      "settings": {
+        "variant": "secondary"
+      }
+    },
+    "quote": {
+      "type": "quote",
+      "settings": {
+        "variant": "dark",
+        "quote": "L'essentiel n'est pas ce que l'on ajoute. C'est ce que l'on retire."
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "settings": {}
+    }
+  },
+  "order": [
+    "header",
+    "page-header",
+    "rich-text",
+    "image-section",
+    "quote",
+    "footer"
+  ]
+}

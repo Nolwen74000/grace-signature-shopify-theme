@@ -1,0 +1,550 @@
+<style>
+  .grace-section {
+    background-color: var(--secondary);
+    min-height: 100vh;
+  }
+
+  .grace-header {
+    padding: 6rem 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .grace-header {
+      padding: 8rem 4rem;
+    }
+  }
+
+  .grace-chapter-line {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+    opacity: 0;
+  }
+
+  .grace-chapter-line.visible {
+    animation: fadeIn 1s ease-out forwards;
+  }
+
+  .grace-chapter-number {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: rgba(20, 20, 20, 0.7);
+  }
+
+  .grace-chapter-divider {
+    flex: 1;
+    height: 1px;
+    background-color: rgba(20, 20, 20, 0.4);
+    min-width: 100px;
+  }
+
+  .grace-title-container {
+    overflow: hidden;
+  }
+
+  .grace-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 3.5rem;
+    letter-spacing: 0.08em;
+    color: var(--secondary-foreground);
+    line-height: 1;
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  .grace-title.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 1s ease-out 0.2s, transform 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+  }
+
+  @media (min-width: 768px) {
+    .grace-title { font-size: 5.5rem; }
+  }
+
+  @media (min-width: 1024px) {
+    .grace-title { font-size: 7rem; }
+  }
+
+  @media (min-width: 1280px) {
+    .grace-title { font-size: 8rem; }
+  }
+
+  .grace-content {
+    padding: 0 2rem 6rem;
+  }
+
+  @media (min-width: 768px) {
+    .grace-content {
+      padding: 0 4rem 8rem;
+    }
+  }
+
+  .grace-grid {
+    display: grid;
+    gap: 4rem;
+  }
+
+  @media (min-width: 1024px) {
+    .grace-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+    }
+  }
+
+  .grace-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    order: 2;
+  }
+
+  @media (min-width: 1024px) {
+    .grace-text { order: 1; }
+  }
+
+  .grace-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(20, 20, 20, 0.8);
+    margin-bottom: 2rem;
+    opacity: 0;
+  }
+
+  .grace-label.visible { animation: fadeInUp 1s ease-out 0.4s forwards; }
+
+  .grace-heading {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.5rem;
+    line-height: 1.5;
+    color: var(--secondary-foreground);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+  }
+
+  .grace-heading.visible { animation: fadeInUp 1s ease-out 0.5s forwards; }
+
+  @media (min-width: 768px) {
+    .grace-heading { font-size: 1.875rem; }
+  }
+
+  .grace-description {
+    font-size: 1.125rem;
+    color: rgba(20, 20, 20, 0.8);
+    margin-bottom: 3rem;
+    opacity: 0;
+  }
+
+  .grace-description.visible { animation: fadeInUp 1s ease-out 0.6s forwards; }
+
+  @media (min-width: 768px) {
+    .grace-description { font-size: 1.25rem; }
+  }
+
+  .grace-keywords {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    opacity: 0;
+  }
+
+  .grace-keywords.visible { animation: fadeInUp 1s ease-out 0.8s forwards; }
+
+  .grace-keyword {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(20, 20, 20, 0.7);
+    border: 1px solid rgba(20, 20, 20, 0.3);
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    display: inline-block;
+    transition: border-color .25s ease, color .25s ease, transform .25s ease;
+  }
+
+  .grace-keyword:hover {
+    border-color: rgba(20, 20, 20, 0.6);
+    color: rgba(20, 20, 20, 0.9);
+    transform: translateY(-1px);
+  }
+
+  .grace-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--secondary-foreground);
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    opacity: 0;
+  }
+
+  .grace-cta.visible { animation: fadeInUp 1s ease-out 0.9s forwards; }
+
+  .grace-cta:hover .grace-arrow { transform: translateX(8px); }
+
+  .grace-arrow { transition: transform 0.3s ease-out; }
+
+  .grace-image {
+    order: 1;
+    position: relative;
+    aspect-ratio: 3/4;
+    background-color: rgba(20, 20, 20, 0.05);
+    overflow: hidden;
+    opacity: 0;
+  }
+
+  .grace-image.visible { animation: fadeIn 1.5s ease-out forwards; }
+
+  @media (min-width: 1024px) {
+    .grace-image { order: 2; }
+  }
+
+  /* ✅ Lien invisible sur toute la grande image */
+  .grace-image a {
+    position: absolute;
+    inset: 0;
+    display: block;
+    z-index: 6;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  /* ✅ Grande image : ne mange pas le clic + zoom au survol */
+  .grace-image img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1);
+    transition: transform 0.4s ease;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .grace-image:hover img {
+      transform: scale(1.06);
+    }
+  }
+
+  .grace-image-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent, rgba(20, 20, 20, 0.05), rgba(20, 20, 20, 0.1));
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  .grace-image-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .grace-placeholder-content { text-align: center; }
+
+  .grace-placeholder-line {
+    width: 1px;
+    height: 8rem;
+    background-color: rgba(20, 20, 20, 0.2);
+    margin: 0 auto 2rem;
+    transform-origin: top;
+    transform: scaleY(0);
+  }
+
+  .grace-placeholder-line.visible { animation: scaleY 1s ease-out 0.5s forwards; }
+
+  .grace-placeholder-text {
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(20, 20, 20, 0.3);
+  }
+
+  .grace-swatches {
+    padding: 0 2rem 6rem;
+  }
+
+  @media (min-width: 768px) {
+    .grace-swatches { padding: 0 4rem 8rem; }
+  }
+
+  .grace-swatches-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .grace-swatches-grid { gap: 2rem; }
+  }
+
+  .grace-swatch {
+    position: relative;
+    aspect-ratio: 1;
+    background-color: rgba(20, 20, 20, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    opacity: 0;
+  }
+
+  .grace-swatch.visible { animation: fadeInUp 0.8s ease-out forwards; }
+
+  .grace-swatch:nth-child(1).visible { animation-delay: 0s; }
+  .grace-swatch:nth-child(2).visible { animation-delay: 0.1s; }
+  .grace-swatch:nth-child(3).visible { animation-delay: 0.2s; }
+
+  /* ✅ CLIC SWATCH : lien au-dessus */
+  .grace-swatch a {
+    position: absolute;
+    inset: 0;
+    display: block;
+    text-decoration: none;
+    z-index: 5;
+    cursor: pointer;
+  }
+
+  /* ✅ SWATCH IMG : ne mange pas le clic + zoom */
+  .grace-swatch img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1);
+    transition: transform 0.4s ease;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .grace-swatch:hover img {
+      transform: scale(1.06);
+    }
+  }
+
+  .grace-swatch::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.08));
+    pointer-events:none;
+    z-index: 3;
+  }
+
+  .grace-swatch-text {
+    position: relative;
+    z-index: 4;
+    font-size: 0.625rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(20, 20, 20, 0.28);
+  }
+
+  .grace-swatch:hover .grace-swatch-text {
+    color: rgba(20, 20, 20, 0.42);
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes scaleY {
+    from { transform: scaleY(0); }
+    to { transform: scaleY(1); }
+  }
+</style>
+
+<section id="grace" class="grace-section">
+
+  <div class="grace-header">
+    <div class="grace-chapter-line animate-on-scroll">
+      <span class="grace-chapter-number">{{ section.settings.chapter | default: 'CHAPITRE I' }}</span>
+      <div class="grace-chapter-divider"></div>
+    </div>
+
+    <div class="grace-title-container">
+      <h2 class="grace-title animate-on-scroll">{{ section.settings.title | default: 'Grace Signature' }}</h2>
+    </div>
+  </div>
+
+  <div class="grace-content">
+    <div class="grace-grid">
+
+      <div class="grace-text">
+        <p class="grace-label animate-on-scroll">{{ section.settings.label | default: 'Cheveux haut de gamme' }}</p>
+
+        <h3 class="grace-heading animate-on-scroll">{{ section.settings.heading | default: "Grace Signature incarne l'aboutissement." }}</h3>
+
+        <p class="grace-description animate-on-scroll">{{ section.settings.description | default: 'Une expression maîtrisée de la matière, du geste et de la sensibilité.' }}</p>
+
+        <div class="grace-keywords animate-on-scroll">
+          {%- assign tag_blocks = section.blocks | where: 'type', 'tag' -%}
+          {%- if tag_blocks.size > 0 -%}
+            {%- for block in tag_blocks -%}
+              {%- assign tag_text = block.settings.text | default: 'Élégance' -%}
+              {%- assign tag_link = block.settings.link -%}
+              {%- if tag_link != blank -%}
+                <a class="grace-keyword" href="{{ tag_link }}" {{ block.shopify_attributes }}>{{ tag_text }}</a>
+              {%- else -%}
+                <span class="grace-keyword" {{ block.shopify_attributes }}>{{ tag_text }}</span>
+              {%- endif -%}
+            {%- endfor -%}
+          {%- else -%}
+            {%- assign keywords = section.settings.keywords | default: 'Élégance, Féminité, Luxe discret, Couture' | split: ', ' -%}
+            {%- for keyword in keywords -%}
+              <span class="grace-keyword">{{ keyword }}</span>
+            {%- endfor -%}
+          {%- endif -%}
+        </div>
+
+        <a href="{{ section.settings.cta_link | default: '/collections/grace-signature' }}"
+           class="grace-cta link-luxury animate-on-scroll">
+          <span>{{ section.settings.cta_text | default: 'Découvrir Grace Signature' }}</span>
+          <span class="grace-arrow">→</span>
+        </a>
+      </div>
+
+      <div class="grace-image animate-on-scroll">
+        {%- if section.settings.image_link != blank -%}
+          <a href="{{ section.settings.image_link }}" aria-label="{{ section.settings.title | default: 'Grace Signature' | escape }}"></a>
+        {%- endif -%}
+
+        {% if section.settings.image != blank %}
+          <img src="{{ section.settings.image | image_url: width: 1400 }}" alt="{{ section.settings.image.alt | default: 'Grace Signature' | escape }}">
+          <div class="grace-image-overlay"></div>
+        {% else %}
+          <div class="grace-image-overlay"></div>
+          <div class="grace-image-placeholder">
+            <div class="grace-placeholder-content">
+              <div class="grace-placeholder-line animate-on-scroll"></div>
+              <span class="grace-placeholder-text">Signature Capillaire</span>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+
+  <div class="grace-swatches">
+    <div class="grace-swatches-grid">
+      {%- assign img_blocks = section.blocks | where: 'type', 'image' -%}
+
+      {%- if img_blocks.size > 0 -%}
+        {%- for block in img_blocks limit: 3 -%}
+          {%- assign sw_text = block.settings.text | default: 'IVOIRE' -%}
+          {%- assign sw_link = block.settings.link -%}
+          <div class="grace-swatch animate-on-scroll" {{ block.shopify_attributes }}>
+            {%- if sw_link != blank -%}
+              <a href="{{ sw_link }}" aria-label="{{ sw_text | escape }}"></a>
+            {%- endif -%}
+
+            {%- if block.settings.image != blank -%}
+              <img src="{{ block.settings.image | image_url: width: 1200 }}" alt="{{ sw_text | escape }}">
+            {%- endif -%}
+
+            <span class="grace-swatch-text">{{ sw_text }}</span>
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        {%- assign colors = 'Ivoire, Champagne, Noir' | split: ', ' -%}
+        {%- for color in colors -%}
+          <div class="grace-swatch animate-on-scroll">
+            <span class="grace-swatch-text">{{ color }}</span>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '-50px' });
+
+    document.querySelectorAll('#grace .animate-on-scroll').forEach(function(el) {
+      observer.observe(el);
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Grace Signature",
+  "tag": "section",
+  "class": "grace-signature-wrapper",
+  "settings": [
+    { "type": "text", "id": "chapter", "label": "Chapitre", "default": "CHAPITRE I" },
+    { "type": "text", "id": "title", "label": "Section Title", "default": "Grace Signature" },
+    { "type": "text", "id": "label", "label": "Label", "default": "Cheveux haut de gamme" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Grace Signature incarne l'aboutissement." },
+    { "type": "text", "id": "description", "label": "Description", "default": "Une expression maîtrisée de la matière, du geste et de la sensibilité." },
+    { "type": "text", "id": "keywords", "label": "Keywords fallback (comma separated)", "default": "Élégance, Féminité, Luxe discret, Couture" },
+    { "type": "text", "id": "cta_text", "label": "CTA Text", "default": "Découvrir Grace Signature" },
+    { "type": "url", "id": "cta_link", "label": "CTA Link" },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+
+    { "type": "url", "id": "image_link", "label": "Lien de la grande image (vers produit/collection)" }
+  ],
+  "blocks": [
+    {
+      "type": "tag",
+      "name": "Tag",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Texte", "default": "ÉLÉGANCE" },
+        { "type": "url", "id": "link", "label": "Lien" }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "text", "label": "Texte", "default": "IVOIRE" },
+        { "type": "url", "id": "link", "label": "Lien" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Grace Signature",
+      "blocks": [
+        { "type": "tag", "settings": { "text": "ÉLÉGANCE" } },
+        { "type": "tag", "settings": { "text": "FÉMINITÉ" } },
+        { "type": "tag", "settings": { "text": "LUXE DISCRET" } },
+        { "type": "tag", "settings": { "text": "COUTURE" } },
+        { "type": "image", "settings": { "text": "IVOIRE" } },
+        { "type": "image", "settings": { "text": "CHAMPAGNE" } },
+        { "type": "image", "settings": { "text": "NOIR" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

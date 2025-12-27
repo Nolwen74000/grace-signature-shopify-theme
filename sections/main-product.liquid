@@ -1,0 +1,521 @@
+<style>
+  /* Reset pour éviter tout conflit */
+  .product-page,
+  .product-page * {
+    box-sizing: border-box;
+  }
+
+  .product-page {
+    width: 100%;
+    max-width: 100%;
+    min-height: auto;
+    padding: 120px 24px 80px;
+    background: hsl(var(--background, 0 0% 4%));
+    color: hsl(var(--foreground, 0 0% 96%));
+  }
+
+  .product-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  @media (min-width: 768px) {
+    .product-container {
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+    }
+  }
+
+  /* Gallery - IMPORTANT: pas de position absolue/fixed, pas de 100vh */
+  .product-gallery {
+    position: relative;
+    width: 100%;
+  }
+
+  @media (min-width: 768px) {
+    .product-gallery {
+      position: sticky;
+      top: 120px;
+    }
+  }
+
+  .product-main-image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+
+  .product-main-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .product-thumbnails {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .product-thumbnail {
+    width: 70px;
+    height: 70px;
+    overflow: hidden;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.3s ease, border-color 0.3s ease;
+    border: 2px solid transparent;
+    border-radius: 4px;
+  }
+
+  .product-thumbnail:hover,
+  .product-thumbnail.active {
+    opacity: 1;
+    border-color: hsl(var(--gold, 45 80% 52%));
+  }
+
+  .product-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Product Info */
+  .product-info {
+    width: 100%;
+  }
+
+  .product-breadcrumb {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: hsl(var(--muted-foreground, 0 0% 60%));
+    margin-bottom: 24px;
+  }
+
+  .product-breadcrumb a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .product-breadcrumb a:hover {
+    color: hsl(var(--gold, 45 80% 52%));
+  }
+
+  .product-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    margin: 0 0 16px 0;
+    line-height: 1.2;
+    color: hsl(var(--foreground, 0 0% 96%));
+  }
+
+  .product-price {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 1.25rem;
+    color: hsl(var(--gold, 45 80% 52%));
+    letter-spacing: 0.05em;
+    margin-bottom: 24px;
+  }
+
+  .product-price s {
+    color: hsl(var(--muted-foreground, 0 0% 60%));
+    font-size: 1rem;
+  }
+
+  .product-description {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: hsl(var(--muted-foreground, 0 0% 70%));
+    margin-bottom: 32px;
+  }
+
+  /* Form */
+  .product-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+
+  .product-variants {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .variant-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .variant-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: hsl(var(--muted-foreground, 0 0% 70%));
+  }
+
+  .variant-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .variant-option {
+    padding: 10px 20px;
+    background: transparent;
+    border: 1px solid hsl(var(--border, 0 0% 20%));
+    color: hsl(var(--foreground, 0 0% 96%));
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 4px;
+  }
+
+  .variant-option:hover {
+    border-color: hsl(var(--gold, 45 80% 52%));
+  }
+
+  .variant-option.selected {
+    border-color: hsl(var(--gold, 45 80% 52%));
+    background: hsl(var(--gold, 45 80% 52%));
+    color: hsl(var(--background, 0 0% 4%));
+  }
+
+  /* Quantity */
+  .product-quantity {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .quantity-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: hsl(var(--muted-foreground, 0 0% 70%));
+  }
+
+  .quantity-selector {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid hsl(var(--border, 0 0% 20%));
+    border-radius: 4px;
+    width: fit-content;
+  }
+
+  .quantity-selector button {
+    width: 44px;
+    height: 44px;
+    background: transparent;
+    border: none;
+    color: hsl(var(--foreground, 0 0% 96%));
+    cursor: pointer;
+    font-size: 1.25rem;
+    transition: background 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .quantity-selector button:hover {
+    background: hsl(var(--muted, 0 0% 15%));
+  }
+
+  .quantity-selector input {
+    width: 50px;
+    height: 44px;
+    background: transparent;
+    border: none;
+    border-left: 1px solid hsl(var(--border, 0 0% 20%));
+    border-right: 1px solid hsl(var(--border, 0 0% 20%));
+    color: hsl(var(--foreground, 0 0% 96%));
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+  }
+
+  .quantity-selector input:focus {
+    outline: none;
+  }
+
+  /* Add to Cart Button */
+  .product-add-btn {
+    width: 100%;
+    padding: 16px 32px;
+    background: hsl(var(--gold, 45 80% 52%));
+    border: none;
+    border-radius: 4px;
+    color: hsl(var(--background, 0 0% 4%));
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+  }
+
+  .product-add-btn:hover {
+    opacity: 0.9;
+  }
+
+  .product-add-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  /* Meta */
+  .product-meta {
+    border-top: 1px solid hsl(var(--border, 0 0% 15%));
+    padding-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .product-meta-item {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    color: hsl(var(--muted-foreground, 0 0% 60%));
+    margin: 0;
+  }
+
+  .product-meta-item strong {
+    color: hsl(var(--foreground, 0 0% 80%));
+  }
+</style>
+
+<section class="product-page">
+  <div class="product-container">
+    <!-- Galerie produit (gauche) -->
+    <div class="product-gallery">
+      <div class="product-main-image">
+        {%- if product.featured_image != blank -%}
+          <img 
+            id="mainImage"
+            src="{{ product.featured_image | image_url: width: 800 }}" 
+            alt="{{ product.featured_image.alt | default: product.title | escape }}"
+          >
+        {%- else -%}
+          <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: hsl(var(--muted-foreground));">
+            Aucune image
+          </div>
+        {%- endif -%}
+      </div>
+      
+      {%- if product.images.size > 1 -%}
+        <div class="product-thumbnails">
+          {%- for image in product.images -%}
+            <div class="product-thumbnail {% if forloop.first %}active{% endif %}" onclick="changeImage('{{ image | image_url: width: 800 }}', this)">
+              <img src="{{ image | image_url: width: 160 }}" alt="{{ image.alt | escape }}">
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <!-- Informations produit (droite) -->
+    <div class="product-info">
+      <!-- Fil d'Ariane -->
+      <nav class="product-breadcrumb">
+        <a href="{{ routes.root_url }}">Accueil</a> / 
+        {%- if product.collections.size > 0 -%}
+          <a href="{{ product.collections.first.url }}">{{ product.collections.first.title }}</a> / 
+        {%- endif -%}
+        <span>{{ product.title }}</span>
+      </nav>
+
+      <!-- Titre -->
+      <h1 class="product-title">{{ product.title }}</h1>
+
+      <!-- Prix -->
+      <div class="product-price">
+        {%- if product.compare_at_price > product.price -%}
+          <s>{{ product.compare_at_price | money }}</s>
+        {%- endif -%}
+        <span id="productPrice">{{ product.price | money }}</span>
+      </div>
+
+      <!-- Description -->
+      {%- if product.description != blank -%}
+        <div class="product-description">
+          {{ product.description }}
+        </div>
+      {%- endif -%}
+
+      <!-- Formulaire d'ajout au panier -->
+      {%- form 'product', product, class: 'product-form', novalidate: 'novalidate' -%}
+        
+        <!-- Variantes -->
+        {%- unless product.has_only_default_variant -%}
+          <div class="product-variants">
+            {%- for option in product.options_with_values -%}
+              <div class="variant-group">
+                <label class="variant-label">{{ option.name }}</label>
+                <div class="variant-options" data-option-index="{{ forloop.index0 }}">
+                  {%- for value in option.values -%}
+                    <button 
+                      type="button" 
+                      class="variant-option {% if option.selected_value == value %}selected{% endif %}"
+                      data-value="{{ value }}"
+                      onclick="selectOption(this, {{ forloop.parentloop.index0 }})"
+                    >
+                      {{ value }}
+                    </button>
+                  {%- endfor -%}
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endunless -%}
+
+        <!-- Select caché pour le formulaire -->
+        <select name="id" id="variantSelect" style="display: none;">
+          {%- for variant in product.variants -%}
+            <option 
+              value="{{ variant.id }}" 
+              {% if variant == product.selected_or_first_available_variant %}selected{% endif %}
+              data-available="{{ variant.available }}"
+              data-price="{{ variant.price | money }}"
+              {% for option in variant.options %}data-option{{ forloop.index }}="{{ option }}"{% endfor %}
+            >
+              {{ variant.title }} - {{ variant.price | money }}
+            </option>
+          {%- endfor -%}
+        </select>
+
+        <!-- Quantité -->
+        <div class="product-quantity">
+          <label class="quantity-label">Quantité</label>
+          <div class="quantity-selector">
+            <button type="button" onclick="updateQty(-1)">−</button>
+            <input type="number" name="quantity" value="1" min="1" id="productQty">
+            <button type="button" onclick="updateQty(1)">+</button>
+          </div>
+        </div>
+
+        <!-- Bouton Ajouter au panier -->
+        <button type="submit" class="product-add-btn" id="addToCartBtn" {% unless product.available %}disabled{% endunless %}>
+          {%- if product.available -%}
+            Ajouter au panier
+          {%- else -%}
+            Épuisé
+          {%- endif -%}
+        </button>
+      {%- endform -%}
+
+      <!-- Métadonnées -->
+      <div class="product-meta">
+        {%- if product.vendor != blank -%}
+          <p class="product-meta-item"><strong>Marque :</strong> {{ product.vendor }}</p>
+        {%- endif -%}
+        {%- if product.type != blank -%}
+          <p class="product-meta-item"><strong>Type :</strong> {{ product.type }}</p>
+        {%- endif -%}
+        {%- if product.selected_or_first_available_variant.sku != blank -%}
+          <p class="product-meta-item"><strong>SKU :</strong> {{ product.selected_or_first_available_variant.sku }}</p>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Changer l'image principale
+  function changeImage(src, el) {
+    document.getElementById('mainImage').src = src;
+    document.querySelectorAll('.product-thumbnail').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  // Mettre à jour la quantité
+  function updateQty(change) {
+    const input = document.getElementById('productQty');
+    const newVal = Math.max(1, parseInt(input.value) + change);
+    input.value = newVal;
+  }
+
+  // Sélectionner une option de variante
+  function selectOption(button, optionIndex) {
+    const container = button.closest('.variant-options');
+    container.querySelectorAll('.variant-option').forEach(btn => btn.classList.remove('selected'));
+    button.classList.add('selected');
+    updateVariant();
+  }
+
+  // Mettre à jour la variante sélectionnée
+  function updateVariant() {
+    const selectedOptions = [];
+    document.querySelectorAll('.variant-options').forEach((container, index) => {
+      const selected = container.querySelector('.variant-option.selected');
+      if (selected) {
+        selectedOptions[index] = selected.dataset.value;
+      }
+    });
+
+    const select = document.getElementById('variantSelect');
+    const options = select.querySelectorAll('option');
+    
+    for (const option of options) {
+      let match = true;
+      selectedOptions.forEach((value, index) => {
+        if (option.dataset[`option${index + 1}`] !== value) {
+          match = false;
+        }
+      });
+      
+      if (match) {
+        select.value = option.value;
+        
+        // Mettre à jour le prix
+        const priceEl = document.getElementById('productPrice');
+        if (priceEl && option.dataset.price) {
+          priceEl.textContent = option.dataset.price;
+        }
+        
+        // Mettre à jour le bouton
+        const addBtn = document.getElementById('addToCartBtn');
+        if (option.dataset.available === 'true') {
+          addBtn.disabled = false;
+          addBtn.textContent = 'Ajouter au panier';
+        } else {
+          addBtn.disabled = true;
+          addBtn.textContent = 'Épuisé';
+        }
+        break;
+      }
+    }
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Fiche Produit",
+  "tag": "section",
+  "class": "product-section",
+  "settings": []
+}
+{% endschema %}

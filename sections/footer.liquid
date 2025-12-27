@@ -1,0 +1,344 @@
+<style>
+  .footer-section {
+    background-color: var(--primary);
+    padding: 6rem 2rem;
+  }
+  
+  @media (min-width: 768px) {
+    .footer-section {
+      padding: 8rem 4rem;
+    }
+  }
+  
+  .footer-inner {
+    max-width: 72rem;
+    margin: 0 auto;
+  }
+  
+  .footer-main {
+    display: grid;
+    gap: 4rem;
+    margin-bottom: 6rem;
+  }
+  
+  @media (min-width: 768px) {
+    .footer-main {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .footer-main {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  
+  .footer-brand {
+    grid-column: span 1;
+  }
+  
+  @media (min-width: 768px) {
+    .footer-brand {
+      grid-column: span 2;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .footer-brand {
+      grid-column: span 1;
+    }
+  }
+  
+  .footer-brand-name {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.1em;
+    color: var(--primary-foreground);
+    margin-bottom: 0.5rem;
+  }
+  
+  @media (min-width: 768px) {
+    .footer-brand-name {
+      font-size: 1.875rem;
+    }
+  }
+  
+  .footer-brand-sub {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.125rem;
+    letter-spacing: 0.15em;
+    color: rgba(248, 245, 240, 0.5);
+  }
+  
+  .footer-brand-tagline {
+    font-size: 0.875rem;
+    color: rgba(248, 245, 240, 0.4);
+    margin-top: 1.5rem;
+  }
+  
+  .footer-menu {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .footer-menu-title {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(248, 245, 240, 0.5);
+    margin-bottom: 1.5rem;
+  }
+  
+  .footer-menu-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .footer-menu-link {
+    font-size: 0.875rem;
+    color: rgba(248, 245, 240, 0.6);
+    text-decoration: none;
+    transition: color 0.3s ease-out;
+  }
+  
+  .footer-menu-link:hover {
+    color: var(--primary-foreground);
+  }
+  
+  .footer-divider {
+    height: 1px;
+    background-color: rgba(248, 245, 240, 0.1);
+    margin-bottom: 3rem;
+  }
+  
+  .footer-info {
+    display: grid;
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+  
+  @media (min-width: 768px) {
+    .footer-info {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  .footer-info-title {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(248, 245, 240, 0.5);
+    margin-bottom: 1rem;
+  }
+  
+  .footer-info-text {
+    font-size: 0.875rem;
+    color: rgba(248, 245, 240, 0.6);
+    margin-bottom: 0.5rem;
+  }
+  
+  .footer-info-link {
+    display: block;
+    font-size: 0.875rem;
+    color: rgba(248, 245, 240, 0.6);
+    text-decoration: none;
+    margin-bottom: 0.5rem;
+    transition: color 0.3s ease-out;
+  }
+  
+  .footer-info-link:hover {
+    color: var(--primary-foreground);
+  }
+  
+  .footer-payment {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .footer-payment-icon {
+    width: 2.5rem;
+    height: 1.5rem;
+    background-color: rgba(248, 245, 240, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.5rem;
+    letter-spacing: 0.1em;
+    color: rgba(248, 245, 240, 0.4);
+  }
+  
+  .footer-alma {
+    display: inline-block;
+    padding: 0.375rem 0.75rem;
+    background-color: rgba(248, 245, 240, 0.1);
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(248, 245, 240, 0.5);
+    margin-bottom: 0.5rem;
+  }
+  
+  .footer-payment-note {
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+    color: rgba(248, 245, 240, 0.3);
+  }
+  
+  .footer-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+  }
+  
+  @media (min-width: 768px) {
+    .footer-bottom {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+  
+  .footer-copyright {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    color: rgba(248, 245, 240, 0.3);
+  }
+  
+  .footer-social {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+  
+  .footer-social-link {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(248, 245, 240, 0.4);
+    text-decoration: none;
+    transition: color 0.3s ease-out;
+  }
+  
+  .footer-social-link:hover {
+    color: var(--primary-foreground);
+  }
+</style>
+
+<footer class="footer-section">
+  <div class="footer-inner">
+    
+    <div class="footer-main">
+      
+      <div class="footer-brand">
+        <h3 class="footer-brand-name">R. Morelli</h3>
+        <span class="footer-brand-sub">& Co</span>
+        <p class="footer-brand-tagline">Maison Créative</p>
+      </div>
+      
+      <div class="footer-menu">
+        <p class="footer-menu-title">Maison</p>
+        <ul class="footer-menu-list">
+          <li><a href="{{ pages['vision'].url | default: '/pages/vision' }}" class="footer-menu-link">Vision</a></li>
+          <li><a href="{{ pages['la-femme'].url | default: '/pages/la-femme' }}" class="footer-menu-link">La Femme R. Morelli</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-menu">
+        <p class="footer-menu-title">ERA</p>
+        <ul class="footer-menu-list">
+          <li><a href="{{ collections['era-manifeste'].url | default: '/collections/era-manifeste' }}" class="footer-menu-link">Manifeste</a></li>
+          <li><a href="{{ collections['era-silhouettes'].url | default: '/collections/era-silhouettes' }}" class="footer-menu-link">Silhouettes</a></li>
+          <li><a href="{{ collections['era-capsules'].url | default: '/collections/era-capsules' }}" class="footer-menu-link">Capsules</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-menu">
+        <p class="footer-menu-title">Grace Signature</p>
+        <ul class="footer-menu-list">
+          <li><a href="{{ collections['grace-signature'].url | default: '/collections/grace-signature' }}" class="footer-menu-link">La Signature</a></li>
+          <li><a href="{{ pages['atelier'].url | default: '/pages/atelier' }}" class="footer-menu-link">Atelier</a></li>
+          <li><a href="{{ collections['les-essentiels'].url | default: '/collections/les-essentiels' }}" class="footer-menu-link">Les Essentiels</a></li>
+        </ul>
+      </div>
+      
+    </div>
+    
+    <div class="footer-divider"></div>
+    
+    <div class="footer-info">
+      
+      <div>
+        <p class="footer-info-title">Contact</p>
+        <p class="footer-info-text">{{ section.settings.email | default: 'contact@rmorelli.com' }}</p>
+        <p class="footer-info-text">{{ section.settings.location | default: 'Paris, France' }}</p>
+      </div>
+      
+      <div>
+        <p class="footer-info-title">Légal</p>
+        <a href="{{ pages['mentions-legales'].url | default: '/pages/mentions-legales' }}" class="footer-info-link">Mentions légales</a>
+        <a href="{{ pages['politique-confidentialite'].url | default: '/pages/politique-confidentialite' }}" class="footer-info-link">Politique de confidentialité</a>
+        <a href="{{ pages['cgv'].url | default: '/pages/cgv' }}" class="footer-info-link">CGV</a>
+      </div>
+      
+      <div>
+        <p class="footer-info-title">Paiement sécurisé</p>
+        <div class="footer-payment">
+          <div class="footer-payment-icon">VISA</div>
+          <div class="footer-payment-icon">MC</div>
+          <div class="footer-payment-icon">CB</div>
+        </div>
+        <span class="footer-alma">Alma — Paiement en 3x</span>
+        <p class="footer-payment-note">Bientôt disponible</p>
+      </div>
+      
+    </div>
+    
+    <div class="footer-divider"></div>
+    
+    <div class="footer-bottom">
+      <p class="footer-copyright">© {{ 'now' | date: '%Y' }} R. Morelli & Co. Tous droits réservés.</p>
+      
+      <div class="footer-social">
+        <a href="{{ section.settings.instagram | default: '#' }}" class="footer-social-link" target="_blank">Instagram</a>
+        <a href="{{ section.settings.pinterest | default: '#' }}" class="footer-social-link" target="_blank">Pinterest</a>
+      </div>
+    </div>
+    
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email",
+      "default": "contact@rmorelli.com"
+    },
+    {
+      "type": "text",
+      "id": "location",
+      "label": "Location",
+      "default": "Paris, France"
+    },
+    {
+      "type": "url",
+      "id": "instagram",
+      "label": "Instagram URL"
+    },
+    {
+      "type": "url",
+      "id": "pinterest",
+      "label": "Pinterest URL"
+    }
+  ]
+}
+{% endschema %}

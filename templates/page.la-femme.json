@@ -1,0 +1,105 @@
+{
+  "sections": {
+    "header": {
+      "type": "header",
+      "settings": {}
+    },
+    "page-header": {
+      "type": "page-header",
+      "settings": {
+        "variant": "dark",
+        "category": "Maison",
+        "subtitle": "Elle a traversé. Elle a choisi."
+      }
+    },
+    "rich-text": {
+      "type": "rich-text",
+      "settings": {
+        "variant": "light",
+        "content": "<p>Elle n'est pas une silhouette de magazine. Elle est réelle. Une femme arrivée à sa maturité, qui a traversé les saisons, accumulé les expériences, et qui sait maintenant — avec une clarté tranquille — ce qui lui convient.</p><p>Elle a essayé. Les tendances, les accumulations, les compromis. Aujourd'hui, elle choisit l'essentiel. Non pas par renoncement, mais par lucidité. Elle sait que l'élégance véritable ne crie jamais.</p><p>Sa vie est pleine : le travail, les enfants peut-être, les voyages, les responsabilités. Elle ne cherche pas à impressionner — elle cherche à être elle-même, pleinement. Ses vêtements l'accompagnent dans le mouvement de sa journée. Sa beauté est une évidence discrète.</p><p>La femme R. Morelli ne suit pas. Elle trace. Elle incarne une féminité qui n'a plus rien à prouver — seulement à vivre.</p>",
+        "show_divider": true
+      }
+    },
+    "image-grid": {
+      "type": "image-with-text",
+      "settings": {
+        "variant": "secondary"
+      },
+      "blocks": {
+        "image-1": {
+          "type": "image",
+          "settings": {
+            "placeholder": "Portrait"
+          }
+        },
+        "image-2": {
+          "type": "image",
+          "settings": {
+            "placeholder": "Silhouette"
+          }
+        }
+      },
+      "block_order": ["image-1", "image-2"]
+    },
+    "feature-list": {
+      "type": "feature-list",
+      "settings": {
+        "variant": "light",
+        "title": "Elle est"
+      },
+      "blocks": {
+        "item-1": {
+          "type": "item",
+          "settings": {
+            "text": "Arrivée à maturité"
+          }
+        },
+        "item-2": {
+          "type": "item",
+          "settings": {
+            "text": "Lucide dans ses choix"
+          }
+        },
+        "item-3": {
+          "type": "item",
+          "settings": {
+            "text": "Élégante sans effort"
+          }
+        },
+        "item-4": {
+          "type": "item",
+          "settings": {
+            "text": "Ancrée dans la vie réelle"
+          }
+        },
+        "item-5": {
+          "type": "item",
+          "settings": {
+            "text": "Libre de toute validation"
+          }
+        }
+      },
+      "block_order": ["item-1", "item-2", "item-3", "item-4", "item-5"]
+    },
+    "quote": {
+      "type": "quote",
+      "settings": {
+        "variant": "dark",
+        "quote": "Elle ne cherche plus à devenir. Elle est."
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "settings": {}
+    }
+  },
+  "order": [
+    "header",
+    "page-header",
+    "rich-text",
+    "image-grid",
+    "feature-list",
+    "quote",
+    "footer"
+  ]
+}

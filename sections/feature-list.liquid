@@ -1,0 +1,240 @@
+<style>
+  .feature-list-section {
+    padding: 6rem 2rem;
+  }
+  
+  @media (min-width: 768px) {
+    .feature-list-section {
+      padding: 8rem 4rem;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .feature-list-section {
+      padding: 10rem 6rem;
+    }
+  }
+  
+  @media (min-width: 1280px) {
+    .feature-list-section {
+      padding: 10rem 8rem;
+    }
+  }
+  
+  .feature-list-section--dark {
+    background-color: var(--primary);
+  }
+  
+  .feature-list-section--light {
+    background-color: var(--background);
+  }
+  
+  .feature-list-section--secondary {
+    background-color: var(--secondary);
+  }
+  
+  .feature-list-inner {
+    max-width: 48rem;
+    margin: 0 auto;
+  }
+  
+  .feature-list-title {
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 3rem;
+    opacity: 0;
+    transition: opacity 1s ease-out;
+  }
+  
+  .feature-list-title.visible {
+    opacity: 1;
+  }
+  
+  .feature-list-section--dark .feature-list-title {
+    color: rgba(248, 245, 240, 0.5);
+  }
+  
+  .feature-list-section--light .feature-list-title {
+    color: var(--muted-foreground);
+  }
+  
+  .feature-list-section--secondary .feature-list-title {
+    color: rgba(26, 26, 26, 0.6);
+  }
+  
+  .feature-list-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .feature-list-item {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1rem 0;
+    border-bottom-width: 1px;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  
+  .feature-list-item.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  
+  .feature-list-section--dark .feature-list-item {
+    border-bottom-color: rgba(248, 245, 240, 0.1);
+  }
+  
+  .feature-list-section--light .feature-list-item {
+    border-bottom-color: var(--border);
+  }
+  
+  .feature-list-section--secondary .feature-list-item {
+    border-bottom-color: rgba(26, 26, 26, 0.1);
+  }
+  
+  .feature-list-number {
+    font-size: 0.75rem;
+  }
+  
+  .feature-list-section--dark .feature-list-number {
+    color: rgba(248, 245, 240, 0.4);
+  }
+  
+  .feature-list-section--light .feature-list-number {
+    color: var(--muted-foreground);
+  }
+  
+  .feature-list-section--secondary .feature-list-number {
+    color: rgba(26, 26, 26, 0.4);
+  }
+  
+  .feature-list-text {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 300;
+    font-size: 1.25rem;
+  }
+  
+  @media (min-width: 768px) {
+    .feature-list-text {
+      font-size: 1.5rem;
+    }
+  }
+  
+  .feature-list-section--dark .feature-list-text {
+    color: var(--primary-foreground);
+  }
+  
+  .feature-list-section--light .feature-list-text {
+    color: var(--foreground);
+  }
+  
+  .feature-list-section--secondary .feature-list-text {
+    color: var(--secondary-foreground);
+  }
+</style>
+
+<section class="feature-list-section feature-list-section--{{ section.settings.variant | default: 'light' }}">
+  <div class="feature-list-inner">
+    {%- if section.settings.title != blank -%}
+      <p class="feature-list-title animate-on-scroll">{{ section.settings.title }}</p>
+    {%- endif -%}
+    
+    <div class="feature-list-items">
+      {%- for block in section.blocks -%}
+        <div class="feature-list-item animate-on-scroll" style="transition-delay: {{ forloop.index | times: 100 }}ms" {{ block.shopify_attributes }}>
+          <span class="feature-list-number">0{{ forloop.index }}</span>
+          <span class="feature-list-text">{{ block.settings.text }}</span>
+        </div>
+      {%- endfor -%}
+      
+      {%- if section.blocks.size == 0 -%}
+        <div class="feature-list-item animate-on-scroll">
+          <span class="feature-list-number">01</span>
+          <span class="feature-list-text">Arrivée à maturité</span>
+        </div>
+        <div class="feature-list-item animate-on-scroll" style="transition-delay: 100ms">
+          <span class="feature-list-number">02</span>
+          <span class="feature-list-text">Lucide dans ses choix</span>
+        </div>
+        <div class="feature-list-item animate-on-scroll" style="transition-delay: 200ms">
+          <span class="feature-list-number">03</span>
+          <span class="feature-list-text">Élégante sans effort</span>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    document.querySelectorAll('.feature-list-section .animate-on-scroll').forEach(function(el) {
+      observer.observe(el);
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Liste de caractéristiques",
+  "tag": "section",
+  "class": "feature-list-wrapper",
+  "settings": [
+    {
+      "type": "select",
+      "id": "variant",
+      "label": "Style",
+      "options": [
+        { "value": "light", "label": "Clair" },
+        { "value": "dark", "label": "Sombre" },
+        { "value": "secondary", "label": "Secondaire" }
+      ],
+      "default": "light"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titre",
+      "default": "Elle est"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Élément",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Texte",
+          "default": "Caractéristique"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Liste de caractéristiques",
+      "blocks": [
+        { "type": "item", "settings": { "text": "Arrivée à maturité" } },
+        { "type": "item", "settings": { "text": "Lucide dans ses choix" } },
+        { "type": "item", "settings": { "text": "Élégante sans effort" } },
+        { "type": "item", "settings": { "text": "Ancrée dans la vie réelle" } },
+        { "type": "item", "settings": { "text": "Libre de toute validation" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

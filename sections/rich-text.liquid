@@ -1,0 +1,327 @@
+<style>
+  .rich-text-section {
+    padding: 6rem 2rem;
+  }
+  
+  @media (min-width: 768px) {
+    .rich-text-section {
+      padding: 8rem 4rem;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .rich-text-section {
+      padding: 10rem 6rem;
+    }
+  }
+  
+  @media (min-width: 1280px) {
+    .rich-text-section {
+      padding: 10rem 8rem;
+    }
+  }
+  
+  .rich-text-section--dark {
+    background-color: var(--primary);
+  }
+  
+  .rich-text-section--light {
+    background-color: var(--background);
+  }
+  
+  .rich-text-section--secondary {
+    background-color: var(--secondary);
+  }
+  
+  .rich-text-inner {
+    max-width: 48rem;
+    margin: 0 auto;
+  }
+  
+  .rich-text-content {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+  }
+  
+  .rich-text-content.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .rich-text-content p {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+  }
+  
+  @media (min-width: 768px) {
+    .rich-text-content p {
+      font-size: 1.25rem;
+    }
+  }
+  
+  .rich-text-section--dark .rich-text-content p {
+    color: var(--primary-foreground);
+  }
+  
+  .rich-text-section--dark .rich-text-content p:not(:first-child) {
+    color: rgba(248, 245, 240, 0.8);
+  }
+  
+  .rich-text-section--light .rich-text-content p {
+    color: var(--foreground);
+  }
+  
+  .rich-text-section--light .rich-text-content p:not(:first-child) {
+    color: var(--muted-foreground);
+  }
+  
+  .rich-text-section--secondary .rich-text-content p {
+    color: var(--secondary-foreground);
+  }
+  
+  .rich-text-section--secondary .rich-text-content p:not(:first-child) {
+    color: rgba(26, 26, 26, 0.8);
+  }
+  
+  .rich-text-content h2,
+  .rich-text-content h3 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+  }
+  
+  .rich-text-content h2 {
+    font-size: 2rem;
+  }
+  
+  @media (min-width: 768px) {
+    .rich-text-content h2 {
+      font-size: 2.5rem;
+    }
+  }
+  
+  .rich-text-content h3 {
+    font-size: 1.5rem;
+  }
+  
+  @media (min-width: 768px) {
+    .rich-text-content h3 {
+      font-size: 1.875rem;
+    }
+  }
+  
+  .rich-text-section--dark .rich-text-content h2,
+  .rich-text-section--dark .rich-text-content h3 {
+    color: var(--primary-foreground);
+  }
+  
+  .rich-text-section--light .rich-text-content h2,
+  .rich-text-section--light .rich-text-content h3 {
+    color: var(--foreground);
+  }
+  
+  .rich-text-section--secondary .rich-text-content h2,
+  .rich-text-section--secondary .rich-text-content h3 {
+    color: var(--secondary-foreground);
+  }
+  
+  .rich-text-divider {
+    height: 1px;
+    margin: 2rem 0;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 1s ease-out;
+    transition-delay: 0.3s;
+  }
+  
+  .rich-text-divider.visible {
+    transform: scaleX(1);
+  }
+  
+  .rich-text-section--dark .rich-text-divider {
+    background-color: rgba(248, 245, 240, 0.2);
+  }
+  
+  .rich-text-section--light .rich-text-divider {
+    background-color: var(--border);
+  }
+  
+  .rich-text-section--secondary .rich-text-divider {
+    background-color: rgba(26, 26, 26, 0.2);
+  }
+  
+  .rich-text-keywords {
+    margin-top: 4rem;
+    padding-top: 4rem;
+    border-top-width: 1px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+    transition-delay: 0.5s;
+  }
+  
+  .rich-text-keywords.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .rich-text-section--dark .rich-text-keywords {
+    border-top-color: rgba(248, 245, 240, 0.1);
+  }
+  
+  .rich-text-section--light .rich-text-keywords {
+    border-top-color: var(--border);
+  }
+  
+  .rich-text-section--secondary .rich-text-keywords {
+    border-top-color: rgba(26, 26, 26, 0.1);
+  }
+  
+  .rich-text-keywords-title {
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+  
+  .rich-text-section--dark .rich-text-keywords-title {
+    color: rgba(248, 245, 240, 0.5);
+  }
+  
+  .rich-text-section--light .rich-text-keywords-title {
+    color: var(--muted-foreground);
+  }
+  
+  .rich-text-section--secondary .rich-text-keywords-title {
+    color: rgba(26, 26, 26, 0.6);
+  }
+  
+  .rich-text-keywords-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .rich-text-keyword {
+    font-size: 0.875rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.75rem 1.5rem;
+    border-width: 1px;
+  }
+  
+  .rich-text-section--dark .rich-text-keyword {
+    color: rgba(248, 245, 240, 0.6);
+    border-color: rgba(248, 245, 240, 0.2);
+  }
+  
+  .rich-text-section--light .rich-text-keyword {
+    color: rgba(26, 26, 26, 0.6);
+    border-color: var(--border);
+  }
+  
+  .rich-text-section--secondary .rich-text-keyword {
+    color: rgba(26, 26, 26, 0.7);
+    border-color: rgba(26, 26, 26, 0.2);
+  }
+</style>
+
+<section class="rich-text-section rich-text-section--{{ section.settings.variant | default: 'light' }}">
+  <div class="rich-text-inner">
+    <div class="rich-text-content animate-on-scroll">
+      {%- if template.name == 'page' -%}
+        {{ page.content }}
+      {%- else -%}
+        {{ section.settings.content }}
+      {%- endif -%}
+    </div>
+    
+    {%- if section.settings.show_divider -%}
+      <div class="rich-text-divider animate-on-scroll"></div>
+    {%- endif -%}
+    
+    {%- if section.settings.keywords != blank -%}
+      <div class="rich-text-keywords animate-on-scroll">
+        <p class="rich-text-keywords-title">{{ section.settings.keywords_title | default: 'Nos piliers' }}</p>
+        <div class="rich-text-keywords-list">
+          {%- assign keywords = section.settings.keywords | split: ',' -%}
+          {%- for keyword in keywords -%}
+            <span class="rich-text-keyword">{{ keyword | strip }}</span>
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    document.querySelectorAll('.rich-text-section .animate-on-scroll').forEach(function(el) {
+      observer.observe(el);
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Texte riche",
+  "tag": "section",
+  "class": "rich-text-wrapper",
+  "settings": [
+    {
+      "type": "select",
+      "id": "variant",
+      "label": "Style",
+      "options": [
+        { "value": "light", "label": "Clair" },
+        { "value": "dark", "label": "Sombre" },
+        { "value": "secondary", "label": "Secondaire" }
+      ],
+      "default": "light"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Contenu",
+      "info": "Laissez vide pour utiliser le contenu de la page",
+      "default": "<p>Votre contenu ici...</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_divider",
+      "label": "Afficher le séparateur",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Mots-clés"
+    },
+    {
+      "type": "text",
+      "id": "keywords_title",
+      "label": "Titre des mots-clés",
+      "default": "Nos piliers"
+    },
+    {
+      "type": "text",
+      "id": "keywords",
+      "label": "Mots-clés (séparés par des virgules)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Texte riche"
+    }
+  ]
+}
+{% endschema %}

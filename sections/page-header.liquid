@@ -1,0 +1,212 @@
+<style>
+  .page-header {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+  }
+  
+  .page-header--dark {
+    background-color: var(--primary);
+  }
+  
+  .page-header--light {
+    background-color: var(--background);
+  }
+  
+  .page-header-inner {
+    width: 100%;
+    padding: 8rem 2rem 4rem;
+  }
+  
+  @media (min-width: 768px) {
+    .page-header-inner {
+      padding: 8rem 4rem 4rem;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .page-header-inner {
+      padding: 8rem 6rem 4rem;
+    }
+  }
+  
+  @media (min-width: 1280px) {
+    .page-header-inner {
+      padding: 8rem 8rem 4rem;
+    }
+  }
+  
+  .page-header-content {
+    max-width: 56rem;
+  }
+  
+  .page-header-category {
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: pageHeaderFadeUp 1s ease-out forwards;
+  }
+  
+  .page-header--dark .page-header-category {
+    color: rgba(248, 245, 240, 0.4);
+  }
+  
+  .page-header--light .page-header-category {
+    color: var(--muted-foreground);
+  }
+  
+  .page-header-title-wrapper {
+    overflow: hidden;
+  }
+  
+  .page-header-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 300;
+    font-size: 3rem;
+    letter-spacing: 0.05em;
+    line-height: 1.1;
+    transform: translateY(100%);
+    animation: pageHeaderSlideUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+  }
+  
+  @media (min-width: 768px) {
+    .page-header-title {
+      font-size: 3.75rem;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .page-header-title {
+      font-size: 4.5rem;
+    }
+  }
+  
+  @media (min-width: 1280px) {
+    .page-header-title {
+      font-size: 6rem;
+    }
+  }
+  
+  .page-header--dark .page-header-title {
+    color: var(--primary-foreground);
+  }
+  
+  .page-header--light .page-header-title {
+    color: var(--foreground);
+  }
+  
+  .page-header-subtitle {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1.25rem;
+    letter-spacing: 0.05em;
+    max-width: 36rem;
+    margin-top: 2rem;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: pageHeaderFadeUp 1s ease-out 0.5s forwards;
+  }
+  
+  @media (min-width: 768px) {
+    .page-header-subtitle {
+      font-size: 1.5rem;
+    }
+  }
+  
+  .page-header--dark .page-header-subtitle {
+    color: rgba(248, 245, 240, 0.6);
+  }
+  
+  .page-header--light .page-header-subtitle {
+    color: var(--muted-foreground);
+  }
+  
+  @keyframes pageHeaderFadeUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes pageHeaderSlideUp {
+    to {
+      transform: translateY(0);
+    }
+  }
+</style>
+
+<section class="page-header page-header--{{ section.settings.variant | default: 'dark' }}">
+  <div class="page-header-inner">
+    <div class="page-header-content">
+      {%- if section.settings.category != blank -%}
+        <p class="page-header-category">{{ section.settings.category }}</p>
+      {%- endif -%}
+      
+      <div class="page-header-title-wrapper">
+        <h1 class="page-header-title">
+          {%- if template.name == 'page' -%}
+            {{ page.title }}
+          {%- elsif template.name == 'collection' -%}
+            {{ collection.title }}
+          {%- elsif template.name == 'product' -%}
+            {{ product.title }}
+          {%- else -%}
+            {{ section.settings.title | default: 'Titre' }}
+          {%- endif -%}
+        </h1>
+      </div>
+      
+      {%- if section.settings.subtitle != blank -%}
+        <p class="page-header-subtitle">{{ section.settings.subtitle }}</p>
+      {%- elsif template.name == 'page' and page.content != blank -%}
+        {%- comment %} Optionally use first sentence of page content {% endcomment -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "En-tête de page",
+  "tag": "section",
+  "class": "page-header-section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "variant",
+      "label": "Variante",
+      "options": [
+        { "value": "dark", "label": "Sombre" },
+        { "value": "light", "label": "Claire" }
+      ],
+      "default": "dark"
+    },
+    {
+      "type": "text",
+      "id": "category",
+      "label": "Catégorie",
+      "info": "Ex: Maison, Grace Signature, ERA..."
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titre",
+      "info": "Laissez vide pour utiliser le titre de la page/collection/produit"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Sous-titre"
+    }
+  ],
+  "presets": [
+    {
+      "name": "En-tête de page"
+    }
+  ]
+}
+{% endschema %}

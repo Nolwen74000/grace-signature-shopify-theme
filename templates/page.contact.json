@@ -1,0 +1,33 @@
+{
+  "sections": {
+    "header": {
+      "type": "header",
+      "settings": {}
+    },
+    "page-header": {
+      "type": "page-header",
+      "settings": {
+        "variant": "dark",
+        "category": "R. Morelli & Co"
+      }
+    },
+    "contact": {
+      "type": "contact",
+      "settings": {
+        "variant": "light",
+        "email": "contact@rmorelli.com",
+        "location": "Paris, France"
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "settings": {}
+    }
+  },
+  "order": [
+    "header",
+    "page-header",
+    "contact",
+    "footer"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "type": "footer",
+  "name": "Footer group",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "settings": {
+        "email": "contact@rmorelli.com",
+        "location": "Paris, France"
+      }
+    }
+  },
+  "order": [
+    "footer"
+  ]
+}

@@ -1,0 +1,171 @@
+<style>
+  .quote-section {
+    padding: 6rem 2rem;
+  }
+  
+  @media (min-width: 768px) {
+    .quote-section {
+      padding: 8rem 4rem;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .quote-section {
+      padding: 10rem 6rem;
+    }
+  }
+  
+  @media (min-width: 1280px) {
+    .quote-section {
+      padding: 10rem 8rem;
+    }
+  }
+  
+  .quote-section--dark {
+    background-color: var(--primary);
+  }
+  
+  .quote-section--light {
+    background-color: var(--background);
+  }
+  
+  .quote-section--secondary {
+    background-color: var(--secondary);
+  }
+  
+  .quote-inner {
+    max-width: 48rem;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .quote-text {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1.5rem;
+    letter-spacing: 0.05em;
+    line-height: 1.6;
+    opacity: 0;
+    transition: opacity 1.5s ease-out;
+  }
+  
+  @media (min-width: 768px) {
+    .quote-text {
+      font-size: 1.875rem;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .quote-text {
+      font-size: 2.25rem;
+    }
+  }
+  
+  .quote-text.visible {
+    opacity: 1;
+  }
+  
+  .quote-section--dark .quote-text {
+    color: rgba(248, 245, 240, 0.6);
+  }
+  
+  .quote-section--light .quote-text {
+    color: var(--muted-foreground);
+  }
+  
+  .quote-section--secondary .quote-text {
+    color: rgba(26, 26, 26, 0.6);
+  }
+  
+  .quote-author {
+    margin-top: 2rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0;
+    transition: opacity 1.5s ease-out;
+    transition-delay: 0.3s;
+  }
+  
+  .quote-author.visible {
+    opacity: 1;
+  }
+  
+  .quote-section--dark .quote-author {
+    color: rgba(248, 245, 240, 0.4);
+  }
+  
+  .quote-section--light .quote-author {
+    color: var(--muted-foreground);
+  }
+  
+  .quote-section--secondary .quote-author {
+    color: rgba(26, 26, 26, 0.5);
+  }
+</style>
+
+<section class="quote-section quote-section--{{ section.settings.variant | default: 'dark' }}">
+  <div class="quote-inner">
+    <blockquote class="quote-text animate-on-scroll">
+      « {{ section.settings.quote | default: "L'essentiel n'est pas ce que l'on ajoute. C'est ce que l'on retire." }} »
+    </blockquote>
+    
+    {%- if section.settings.author != blank -%}
+      <p class="quote-author animate-on-scroll">— {{ section.settings.author }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    document.querySelectorAll('.quote-section .animate-on-scroll').forEach(function(el) {
+      observer.observe(el);
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Citation",
+  "tag": "section",
+  "class": "quote-wrapper",
+  "settings": [
+    {
+      "type": "select",
+      "id": "variant",
+      "label": "Style",
+      "options": [
+        { "value": "dark", "label": "Sombre" },
+        { "value": "light", "label": "Clair" },
+        { "value": "secondary", "label": "Secondaire" }
+      ],
+      "default": "dark"
+    },
+    {
+      "type": "textarea",
+      "id": "quote",
+      "label": "Citation",
+      "default": "L'essentiel n'est pas ce que l'on ajoute. C'est ce que l'on retire."
+    },
+    {
+      "type": "text",
+      "id": "author",
+      "label": "Auteur (optionnel)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Citation"
+    }
+  ]
+}
+{% endschema %}

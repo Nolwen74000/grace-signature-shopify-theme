@@ -1,0 +1,268 @@
+<style>
+  .contact-section {
+    padding: 6rem 2rem;
+  }
+  
+  @media (min-width: 768px) {
+    .contact-section {
+      padding: 8rem 4rem;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .contact-section {
+      padding: 10rem 6rem;
+    }
+  }
+  
+  @media (min-width: 1280px) {
+    .contact-section {
+      padding: 10rem 8rem;
+    }
+  }
+  
+  .contact-section--dark {
+    background-color: var(--primary);
+  }
+  
+  .contact-section--light {
+    background-color: var(--background);
+  }
+  
+  .contact-inner {
+    max-width: 36rem;
+    margin: 0 auto;
+  }
+  
+  .contact-content {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+  }
+  
+  .contact-content.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .contact-block-title {
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  
+  .contact-section--light .contact-block-title {
+    color: var(--muted-foreground);
+  }
+  
+  .contact-section--dark .contact-block-title {
+    color: rgba(248, 245, 240, 0.5);
+  }
+  
+  .contact-email {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 300;
+    font-size: 1.5rem;
+    text-decoration: none;
+    position: relative;
+    display: inline-block;
+  }
+  
+  .contact-section--light .contact-email {
+    color: var(--foreground);
+  }
+  
+  .contact-section--dark .contact-email {
+    color: var(--primary-foreground);
+  }
+  
+  .contact-email::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: currentColor;
+    transition: width 0.7s ease-out;
+  }
+  
+  .contact-email:hover::after {
+    width: 100%;
+  }
+  
+  .contact-location {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 300;
+    font-size: 1.5rem;
+  }
+  
+  .contact-section--light .contact-location {
+    color: var(--foreground);
+  }
+  
+  .contact-section--dark .contact-location {
+    color: var(--primary-foreground);
+  }
+  
+  .contact-divider {
+    height: 1px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 1s ease-out;
+  }
+  
+  .contact-divider.visible {
+    transform: scaleX(1);
+  }
+  
+  .contact-section--light .contact-divider {
+    background-color: var(--border);
+  }
+  
+  .contact-section--dark .contact-divider {
+    background-color: rgba(248, 245, 240, 0.2);
+  }
+  
+  .contact-social {
+    display: flex;
+    gap: 2rem;
+  }
+  
+  .contact-social-link {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 300;
+    font-size: 1.25rem;
+    text-decoration: none;
+    position: relative;
+    display: inline-block;
+  }
+  
+  .contact-section--light .contact-social-link {
+    color: var(--foreground);
+  }
+  
+  .contact-section--dark .contact-social-link {
+    color: var(--primary-foreground);
+  }
+  
+  .contact-social-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: currentColor;
+    transition: width 0.7s ease-out;
+  }
+  
+  .contact-social-link:hover::after {
+    width: 100%;
+  }
+</style>
+
+<section class="contact-section contact-section--{{ section.settings.variant | default: 'light' }}">
+  <div class="contact-inner">
+    <div class="contact-content animate-on-scroll">
+      {%- if section.settings.email != blank -%}
+        <div>
+          <p class="contact-block-title">Email</p>
+          <a href="mailto:{{ section.settings.email }}" class="contact-email">{{ section.settings.email }}</a>
+        </div>
+      {%- endif -%}
+      
+      <div class="contact-divider animate-on-scroll"></div>
+      
+      {%- if section.settings.location != blank -%}
+        <div>
+          <p class="contact-block-title">Lieu</p>
+          <p class="contact-location">{{ section.settings.location }}</p>
+        </div>
+      {%- endif -%}
+      
+      <div class="contact-divider animate-on-scroll"></div>
+      
+      {%- if section.settings.instagram_url != blank or section.settings.pinterest_url != blank -%}
+        <div>
+          <p class="contact-block-title">Réseaux</p>
+          <div class="contact-social">
+            {%- if section.settings.instagram_url != blank -%}
+              <a href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener" class="contact-social-link">Instagram</a>
+            {%- endif -%}
+            {%- if section.settings.pinterest_url != blank -%}
+              <a href="{{ section.settings.pinterest_url }}" target="_blank" rel="noopener" class="contact-social-link">Pinterest</a>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    document.querySelectorAll('.contact-section .animate-on-scroll').forEach(function(el) {
+      observer.observe(el);
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Contact",
+  "tag": "section",
+  "class": "contact-wrapper",
+  "settings": [
+    {
+      "type": "select",
+      "id": "variant",
+      "label": "Style",
+      "options": [
+        { "value": "light", "label": "Clair" },
+        { "value": "dark", "label": "Sombre" }
+      ],
+      "default": "light"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email",
+      "default": "contact@rmorelli.com"
+    },
+    {
+      "type": "text",
+      "id": "location",
+      "label": "Lieu",
+      "default": "Paris, France"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "Lien Instagram"
+    },
+    {
+      "type": "url",
+      "id": "pinterest_url",
+      "label": "Lien Pinterest"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact"
+    }
+  ]
+}
+{% endschema %}

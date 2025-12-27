@@ -1,0 +1,448 @@
+<style>
+  .era-tiles {
+    padding: 60px 20px;
+    background-color: #FDFCFA;
+  }
+
+  @media (min-width: 768px) {
+    .era-tiles {
+      padding: 80px 40px;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .era-tiles {
+      padding: 100px 60px;
+    }
+  }
+
+  .era-tiles__container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* Navigation Buttons */
+  .era-tiles__nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 50px;
+  }
+
+  @media (min-width: 768px) {
+    .era-tiles__nav {
+      gap: 20px;
+      margin-bottom: 70px;
+    }
+  }
+
+  .era-tiles__nav-btn {
+    font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #8B8680;
+    text-decoration: none;
+    padding: 12px 24px;
+    border: 1px solid #D4D0CA;
+    background: transparent;
+    transition: all 0.35s ease;
+    cursor: pointer;
+    display: inline-block;
+  }
+
+  @media (min-width: 768px) {
+    .era-tiles__nav-btn {
+      font-size: 14px;
+      padding: 14px 32px;
+    }
+  }
+
+  .era-tiles__nav-btn:hover {
+    color: #1A1A1A;
+    border-color: #1A1A1A;
+    background-color: transparent;
+  }
+
+  .era-tiles__nav-btn--active {
+    color: #1A1A1A;
+    border-color: #1A1A1A;
+  }
+
+  /* Tiles Grid */
+  .era-tiles__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  @media (min-width: 640px) {
+    .era-tiles__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .era-tiles__grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+    }
+  }
+
+  /* Individual Tile */
+  .era-tile {
+    display: block;
+    position: relative;
+    text-decoration: none;
+    color: inherit;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .era-tile__image-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    background-color: #EDEAE5;
+  }
+
+  .era-tile__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease, opacity 0.4s ease;
+  }
+
+  .era-tile:hover .era-tile__image {
+    transform: scale(1.03);
+    opacity: 0.92;
+  }
+
+  .era-tile__placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #EDEAE5;
+  }
+
+  .era-tile__placeholder svg {
+    width: 50%;
+    height: 50%;
+    opacity: 0.25;
+  }
+
+  .era-tile__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.25) 0%, transparent 50%);
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+
+  .era-tile:hover .era-tile__overlay {
+    opacity: 0.7;
+  }
+
+  .era-tile__label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 24px 16px;
+    text-align: center;
+    font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    transition: transform 0.4s ease;
+  }
+
+  @media (min-width: 768px) {
+    .era-tile__label {
+      font-size: 20px;
+      padding: 30px 20px;
+    }
+  }
+
+  .era-tile:hover .era-tile__label {
+    transform: translateY(-4px);
+  }
+
+  /* Animation on scroll */
+  .era-tile {
+    opacity: 0;
+    transform: translateY(25px);
+    animation: eraTileFadeIn 0.6s ease forwards;
+  }
+
+  .era-tile:nth-child(1) { animation-delay: 0.1s; }
+  .era-tile:nth-child(2) { animation-delay: 0.2s; }
+  .era-tile:nth-child(3) { animation-delay: 0.3s; }
+
+  @keyframes eraTileFadeIn {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+<section class="era-tiles">
+  <div class="era-tiles__container">
+    
+    {%- comment -%} Navigation Buttons (4 configurable) {%- endcomment -%}
+    <nav class="era-tiles__nav">
+      {%- for i in (1..4) -%}
+        {%- assign btn_label = 'button_' | append: i | append: '_label' -%}
+        {%- assign btn_collection = 'button_' | append: i | append: '_collection' -%}
+        {%- assign btn_url = 'button_' | append: i | append: '_url' -%}
+        {%- assign btn_active = 'button_' | append: i | append: '_active' -%}
+        
+        {%- if section.settings[btn_label] != blank -%}
+          {%- assign link_url = '#' -%}
+          
+          {%- if section.settings[btn_collection] != blank -%}
+            {%- assign link_url = section.settings[btn_collection].url -%}
+          {%- elsif section.settings[btn_url] != blank -%}
+            {%- assign link_url = section.settings[btn_url] -%}
+          {%- endif -%}
+          
+          <a 
+            href="{{ link_url }}"
+            class="era-tiles__nav-btn{% if section.settings[btn_active] %} era-tiles__nav-btn--active{% endif %}"
+          >
+            {{ section.settings[btn_label] }}
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    </nav>
+
+    {%- comment -%} Product/Collection Tiles Grid {%- endcomment -%}
+    <div class="era-tiles__grid">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'tile' -%}
+            {%- assign tile_url = '#' -%}
+            
+            {%- if block.settings.tile_product != blank -%}
+              {%- assign tile_url = block.settings.tile_product.url -%}
+            {%- elsif block.settings.tile_url != blank -%}
+              {%- assign tile_url = block.settings.tile_url -%}
+            {%- endif -%}
+            
+            <a 
+              href="{{ tile_url }}" 
+              class="era-tile"
+              {{ block.shopify_attributes }}
+            >
+              <div class="era-tile__image-wrapper">
+                {%- if block.settings.tile_image != blank -%}
+                  <img 
+                    src="{{ block.settings.tile_image | image_url: width: 800 }}"
+                    srcset="{{ block.settings.tile_image | image_url: width: 400 }} 400w,
+                            {{ block.settings.tile_image | image_url: width: 600 }} 600w,
+                            {{ block.settings.tile_image | image_url: width: 800 }} 800w,
+                            {{ block.settings.tile_image | image_url: width: 1000 }} 1000w"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    alt="{{ block.settings.tile_label | escape }}"
+                    loading="lazy"
+                    class="era-tile__image"
+                  >
+                {%- else -%}
+                  <div class="era-tile__placeholder">
+                    {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                  </div>
+                {%- endif -%}
+                <div class="era-tile__overlay"></div>
+                <span class="era-tile__label">{{ block.settings.tile_label }}</span>
+              </div>
+            </a>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "ERA Tiles",
+  "tag": "section",
+  "class": "era-tiles-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Bouton 1"
+    },
+    {
+      "type": "text",
+      "id": "button_1_label",
+      "label": "Libellé",
+      "default": "Élégance"
+    },
+    {
+      "type": "collection",
+      "id": "button_1_collection",
+      "label": "Collection (prioritaire)"
+    },
+    {
+      "type": "url",
+      "id": "button_1_url",
+      "label": "Lien personnalisé (si pas de collection)"
+    },
+    {
+      "type": "checkbox",
+      "id": "button_1_active",
+      "label": "État actif (sélectionné)",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Bouton 2"
+    },
+    {
+      "type": "text",
+      "id": "button_2_label",
+      "label": "Libellé",
+      "default": "Féminité"
+    },
+    {
+      "type": "collection",
+      "id": "button_2_collection",
+      "label": "Collection (prioritaire)"
+    },
+    {
+      "type": "url",
+      "id": "button_2_url",
+      "label": "Lien personnalisé (si pas de collection)"
+    },
+    {
+      "type": "checkbox",
+      "id": "button_2_active",
+      "label": "État actif (sélectionné)",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Bouton 3"
+    },
+    {
+      "type": "text",
+      "id": "button_3_label",
+      "label": "Libellé",
+      "default": "Luxe discret"
+    },
+    {
+      "type": "collection",
+      "id": "button_3_collection",
+      "label": "Collection (prioritaire)"
+    },
+    {
+      "type": "url",
+      "id": "button_3_url",
+      "label": "Lien personnalisé (si pas de collection)"
+    },
+    {
+      "type": "checkbox",
+      "id": "button_3_active",
+      "label": "État actif (sélectionné)",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Bouton 4"
+    },
+    {
+      "type": "text",
+      "id": "button_4_label",
+      "label": "Libellé",
+      "default": "Couture"
+    },
+    {
+      "type": "collection",
+      "id": "button_4_collection",
+      "label": "Collection (prioritaire)"
+    },
+    {
+      "type": "url",
+      "id": "button_4_url",
+      "label": "Lien personnalisé (si pas de collection)"
+    },
+    {
+      "type": "checkbox",
+      "id": "button_4_active",
+      "label": "État actif (sélectionné)",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tile",
+      "name": "Tuile produit",
+      "settings": [
+        {
+          "type": "text",
+          "id": "tile_label",
+          "label": "Label affiché",
+          "default": "Ivoire"
+        },
+        {
+          "type": "image_picker",
+          "id": "tile_image",
+          "label": "Image"
+        },
+        {
+          "type": "product",
+          "id": "tile_product",
+          "label": "Produit lié (prioritaire)"
+        },
+        {
+          "type": "url",
+          "id": "tile_url",
+          "label": "Lien personnalisé (si pas de produit)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ERA Tiles",
+      "settings": {
+        "button_1_label": "Élégance",
+        "button_2_label": "Féminité",
+        "button_3_label": "Luxe discret",
+        "button_4_label": "Couture"
+      },
+      "blocks": [
+        {
+          "type": "tile",
+          "settings": {
+            "tile_label": "Ivoire"
+          }
+        },
+        {
+          "type": "tile",
+          "settings": {
+            "tile_label": "Champagne"
+          }
+        },
+        {
+          "type": "tile",
+          "settings": {
+            "tile_label": "Noir"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

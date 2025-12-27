@@ -1,0 +1,39 @@
+{
+  "sections": {
+    "header": {
+      "type": "header",
+      "settings": {}
+    },
+    "page-header": {
+      "type": "page-header",
+      "settings": {
+        "variant": "light",
+        "category": "Grace Signature",
+        "subtitle": "L'élégance au quotidien."
+      }
+    },
+    "rich-text": {
+      "type": "rich-text",
+      "settings": {
+        "variant": "dark",
+        "content": "<p>Les Essentiels Grace sont la beauté accessible et raffinée. Des créations pensées pour le quotidien, sans compromis sur la qualité.</p><p>Parce que l'élégance n'est pas réservée aux occasions spéciales. Elle se vit chaque jour, dans chaque geste, dans chaque instant.</p>",
+        "show_divider": true
+      }
+    },
+    "main-collection": {
+      "type": "main-collection",
+      "settings": {}
+    },
+    "footer": {
+      "type": "footer",
+      "settings": {}
+    }
+  },
+  "order": [
+    "header",
+    "page-header",
+    "rich-text",
+    "main-collection",
+    "footer"
+  ]
+}

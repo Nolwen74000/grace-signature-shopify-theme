@@ -1,0 +1,39 @@
+{
+  "sections": {
+    "header": {
+      "type": "header",
+      "settings": {}
+    },
+    "page-header": {
+      "type": "page-header",
+      "settings": {
+        "variant": "light",
+        "category": "Grace Signature",
+        "subtitle": "Ne garder que l'essence."
+      }
+    },
+    "rich-text": {
+      "type": "rich-text",
+      "settings": {
+        "variant": "dark",
+        "content": "<p>Deux lignes. Une même essence. Celle de la femme Grâce : libre, élégante et intemporelle.</p><p>Chez Grace Signature, chaque création capillaire raconte une histoire : celle d'une renaissance, d'une féminité retrouvée, d'une confiance qui s'affirme.</p><p>Deux lignes, deux approches, mais une seule philosophie : sublimer la femme, sans jamais la travestir.</p>",
+        "show_divider": true
+      }
+    },
+    "main-collection": {
+      "type": "main-collection",
+      "settings": {}
+    },
+    "footer": {
+      "type": "footer",
+      "settings": {}
+    }
+  },
+  "order": [
+    "header",
+    "page-header",
+    "rich-text",
+    "main-collection",
+    "footer"
+  ]
+}
